@@ -1,0 +1,25 @@
+{
+    "mailboxes": [
+        {
+            "login": "login@provider.com",
+            "password": "password",
+            "host": "imap.provider.com",
+            "port": "993",
+            "applicable_filters": [
+                "Filter1",
+                "Filter2"
+            ]
+        },
+        {
+            "login": "login2@provider.com",
+            "password": "password",
+            "host": "imap.provider.com",
+            "port": "993",
+            "applicable_filters": [
+                "Filter3",
+                "Filter33",
+                "Filter4"
+            ]
+        }
+    ]
+}
