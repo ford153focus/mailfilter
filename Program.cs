@@ -19,7 +19,7 @@ namespace MailFilter
             Utils.WarningWrite(mailbox["login"]);
 
             // For demo-purposes, accept all SSL certificates
-            var client = new ImapClient {ServerCertificateValidationCallback = (s, c, h, e) => true};
+            var client = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
 
             client.Connect(mailbox["host"], mailbox["port"], true);
 
@@ -53,7 +53,7 @@ namespace MailFilter
 
             foreach (var filter in filters)
             {
-                object[] parametersArray = {client, inbox, message, i};
+                object[] parametersArray = { client, inbox, message, i };
                 MethodInfo method = typeof(Filters).GetMethod(filter.Trim('"'));
                 method.Invoke(null, parametersArray);
             }
