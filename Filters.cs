@@ -11,52 +11,6 @@ namespace MailFilter
 {
     internal class Filters
     {
-        private static readonly List<string> GamePublishers = new List<string>
-        {
-            "battlerite.com",
-            "blizzard.com",
-            "capcom.com",
-            "daybreakgames.com",
-            "discordapp.com",
-            "ea.com",
-            "epicgames.com",
-            "goodgame.ru",
-            "gog.com",
-            "hirezstudios.com",
-            "humblebundle.com",
-            "perfectworld.com",
-            "steampowered.com",
-            "stopgame.ru",
-            "twitch.tv",
-            "unity3d.com",
-            "warframe.com"
-        };
-
-        private static readonly List<string> GosuMailboxes = new List<string>
-        {
-            "no-reply@gosuslugi.ru",
-            "no_reply@fcod.nalog.ru"
-        };
-
-        private static readonly List<string> HeadHunterMailboxes = new List<string>
-        {
-            "noreply@career.ru",
-            "no_reply@hh.ru",
-            "noreply@hh.ru",
-            "no-reply@rabota.ru",
-            "noreply@mailer.rabota.ru"
-        };
-
-        private static readonly List<string> SocialNetworkDomains = new List<string>
-        {
-            "facebookmail.com",
-            "instagram.com",
-            "pinterest.com",
-            "pixiv.net",
-            "twitter.com",
-            "vk.com"
-        };
-
         public static void Atlassian(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
         {
             var mailAddress = new MailAddress(message.From.Mailboxes.First().Address);
@@ -76,6 +30,27 @@ namespace MailFilter
 
         public static void Gaemz(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
         {
+            List<string> GamePublishers = new List<string>
+            {
+                "battlerite.com",
+                "blizzard.com",
+                "capcom.com",
+                "daybreakgames.com",
+                "discordapp.com",
+                "ea.com",
+                "epicgames.com",
+                "goodgame.ru",
+                "gog.com",
+                "hirezstudios.com",
+                "humblebundle.com",
+                "perfectworld.com",
+                "steampowered.com",
+                "stopgame.ru",
+                "twitch.tv",
+                "unity3d.com",
+                "warframe.com"
+            };
+
             var senderAddress = new MailAddress(message.From.Mailboxes.FirstOrDefault().Address);
             var host = senderAddress.Host;
 
@@ -99,7 +74,7 @@ namespace MailFilter
                     return;
                 case "email.games2gether.com":
                 case "ru.playblackdesert.com":
-                    Utils.MoveMessage("gaemz // "+host, new List<string> { "gaemz" }, client, inbox, index);
+                    Utils.MoveMessage("gaemz // " + host, new List<string> { "gaemz" }, client, inbox, index);
                     return;
             }
 
@@ -111,12 +86,25 @@ namespace MailFilter
 
         public static void GosUslugi(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
         {
+            List<string> GosuMailboxes = new List<string> {
+                "no-reply@gosuslugi.ru",
+                "no_reply@fcod.nalog.ru"
+            };
+
             if (GosuMailboxes.Contains(message.From.Mailboxes.First().Address))
                 Utils.MoveMessage("GosUslugi", new List<string> { "ГосУслуги" }, client, inbox, index);
         }
 
         public static void HeadHunter(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
         {
+            List<string> HeadHunterMailboxes = new List<string> {
+                "noreply@career.ru",
+                "no_reply@hh.ru",
+                "noreply@hh.ru",
+                "no-reply@rabota.ru",
+                "noreply@mailer.rabota.ru"
+            };
+
             if (!HeadHunterMailboxes.Contains(message.From.Mailboxes.First().Address)) return;
 
             switch (message.Subject.ToLower())
@@ -248,6 +236,9 @@ namespace MailFilter
                 case "navalny.com":
                     Utils.MoveMessage("20!8", new List<string> { "News", "n2018" }, client, inbox, index);
                     return;
+                case "tjournal.ru":
+                    Utils.MoveMessage("News // Tj", new List<string> { "News", "Tj" }, client, inbox, index);
+                    return;
                 case "qt.io":
                     Utils.MoveMessage("News // Qt", new List<string> { "News", "Qt" }, client, inbox, index);
                     return;
@@ -259,10 +250,30 @@ namespace MailFilter
             var senderAddress = new MailAddress(message.From.Mailboxes.FirstOrDefault().Address);
             var host = senderAddress.Host;
 
-            foreach (var socialProvider in SocialNetworkDomains)
-                if (host.Contains(socialProvider))
-                    Utils.MoveMessage("Socials", new List<string> { "Социалочки", socialProvider }, client,
-                        inbox, index);
+            switch (host)
+            {
+                case "facebookmail.com":
+                    Utils.MoveMessage("social // facebook", new List<string> { "social", "facebook" }, client, inbox, index);
+                    return;
+                case "instagram.com":
+                    Utils.MoveMessage("social // instagram", new List<string> { "social", "instagram" }, client, inbox, index);
+                    return;
+                case "pinterest.com":
+                    Utils.MoveMessage("social // pinterest", new List<string> { "social", "pinterest" }, client, inbox, index);
+                    return;
+                case "pixiv.net":
+                    Utils.MoveMessage("social // pixiv", new List<string> { "social", "pixiv" }, client, inbox, index);
+                    return;
+                case "twitter.com":
+                    Utils.MoveMessage("social // twitter", new List<string> { "social", "twitter" }, client, inbox, index);
+                    return;
+                case "vk.com":
+                    Utils.MoveMessage("social // vk", new List<string> { "social", "vk" }, client, inbox, index);
+                    return;
+                case "youtube.com":
+                    Utils.MoveMessage("social // youtube", new List<string> { "social", "youtube" }, client, inbox, index);
+                    return;
+            }
         }
 
         public static void Stores(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
@@ -355,6 +366,20 @@ namespace MailFilter
                     break;
                 case "yandex-team.ru":
                     Utils.MoveMessage("Yandex // Support", new List<string> { "Yandex", "Support" }, client, inbox, index);
+                    break;
+            }
+        }
+
+        public static void Tmp(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
+        {
+            var senderAddress = message.From.Mailboxes.FirstOrDefault().Address;
+            var senderName = message.From.Mailboxes.FirstOrDefault().Name;
+            var host = new MailAddress(senderAddress).Host;
+
+            switch (senderAddress)
+            {
+                case "portal@azbukavkusa.ru":
+                    Utils.MoveMessage("Tmp", new List<string> { "tmp" }, client, inbox, index);
                     break;
             }
         }
