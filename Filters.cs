@@ -40,7 +40,6 @@ namespace MailFilter
                 "ea.com",
                 "epicgames.com",
                 "goodgame.ru",
-                "gog.com",
                 "hirezstudios.com",
                 "humblebundle.com",
                 "perfectworld.com",
@@ -60,7 +59,13 @@ namespace MailFilter
                 case "gaijin.net":
                 case "playkey.net":
                 case "ppy.sh":
+                case "email.games2gether.com":
+                case "ru.playblackdesert.com":
                     Utils.MoveMessage("gaemz", new List<string> { "gaemz" }, client, inbox, index);
+                    return;
+                case "gog.com":
+                case "email2.gog.com":
+                    Utils.MoveMessage("gaemz // GOG", new List<string> { "gaemz", "gog" }, client, inbox, index);
                     return;
                 case "riotgames.com":
                 case "email.riotgames.com":
@@ -70,11 +75,7 @@ namespace MailFilter
                 case "news.ubisoft.com":
                 case "ubi.com":
                 case "ubisoft.com":
-                    Utils.MoveMessage("gaemz // LoL", new List<string> { "gaemz", "Ubisoft" }, client, inbox, index);
-                    return;
-                case "email.games2gether.com":
-                case "ru.playblackdesert.com":
-                    Utils.MoveMessage("gaemz // " + host, new List<string> { "gaemz" }, client, inbox, index);
+                    Utils.MoveMessage("gaemz // ubisoft", new List<string> { "gaemz", "Ubisoft" }, client, inbox, index);
                     return;
             }
 
