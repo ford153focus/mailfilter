@@ -34,13 +34,13 @@ namespace MailFilter
                 // convert JsonArray to List
                 var filters = new List<string>();
                 foreach (dynamic filter in mailbox["applicable_filters"]) filters.Add(filter);
-                ProcessMessageAsync(client, inbox, i, filters);
+                ProcessMessage(client, inbox, i, filters);
             }
 
             client.Disconnect(true);
         }
 
-        private static async void ProcessMessageAsync(ImapClient client, IMailFolder inbox, int i, List<string> filters)
+        private static void ProcessMessage(ImapClient client, IMailFolder inbox, int i, List<string> filters)
         {
             MimeMessage message = inbox.GetMessage(i);
 
