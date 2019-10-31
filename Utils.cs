@@ -36,7 +36,7 @@ namespace MailFilter
                 {
                     currentFolder = currentFolder.GetSubfolder(folder);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     currentFolder = currentFolder.Create(folder, true);
                 }
