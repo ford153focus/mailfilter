@@ -14,7 +14,7 @@ namespace MailFilter
 {
     internal class Program
     {
-        private static async void ProcessMailboxAsync(dynamic mailbox)
+        private static void ProcessMailbox(dynamic mailbox)
         {
             Utils.WarningWrite(mailbox["login"]);
 
@@ -64,13 +64,14 @@ namespace MailFilter
             var mailboxesCfgPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + "mailboxes.json";
             var mailboxesCfgStr = File.ReadAllText(mailboxesCfgPath, Encoding.UTF8);
             JsonValue mailboxesCfg = JsonValue.Parse(mailboxesCfgStr);
+            JsonArray mailboxes = (JsonArray)mailboxesCfg["mailboxes"];
 
             var mailboxTasks = new List<Task>();
 
-            foreach (object mailbox in mailboxesCfg["mailboxes"])
+            foreach (object mailbox in mailboxes)
             {
                 mailboxTasks.Add(
-                    Task.Run(() => { ProcessMailboxAsync(mailbox); })
+                    Task.Run(() => { ProcessMailbox(mailbox); })
                 );
             }
 
