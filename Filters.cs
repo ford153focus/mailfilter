@@ -123,48 +123,55 @@ namespace MailFilter
                         inbox, index);
                     return;
                 case "работодатель не готов пригласить вас на интервью":
-                    Utils.MoveMessage("hh // vacancy response rejected :(",
-                        new List<string> { "hh", "Потрачено" }, client, inbox, index);
+                    Utils.MoveMessage("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" }, client, inbox, index);
                     return;
                 case "ответ на ваше резюме":
                 case "предложение о работе":
-                    Utils.MoveMessage("hh // Приглашение", new List<string> { "hh", "Приглашения" }, client,
-                        inbox, index);
+                    Utils.MoveMessage("hh // Приглашение", new List<string> { "hh", "Приглашения" }, client, inbox, index);
                     return;
                 case "сообщение от работодателя":
                 case "у вас есть непрочитанные сообщения на rabota.ru!":
-                    Utils.MoveMessage("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" },
-                        client, inbox, index);
+                    Utils.MoveMessage("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" }, client, inbox, index);
                     return;
                 case "спасибо за ваше резюме!":
-                    Utils.MoveMessage("hh // Прочее", new List<string> { "hh", "Прочие письма" },
-                        client, inbox, index);
+                    Utils.MoveMessage("hh // Прочее", new List<string> { "hh", "Прочие письма" }, client, inbox, index);
                     return;
             }
 
             if (Regex.Match(message.Subject, @"^Вакансия .+: вам написали из .+$").Success
             )
             {
-                Utils.MoveMessage("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" },
-                    client, inbox, index);
+                Utils.MoveMessage(
+                    "hh // Новое сообщение", 
+                    new List<string> { "hh", "Новое сообщение" },
+                    client, inbox, index
+                );
                 return;
             }
 
 
             if (Regex.Match(message.Subject, @"Новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
+                message.Subject.Contains("подходящие вакансии") ||
                 message.Subject.Contains("свежие вакансии для вас"))
             {
-                Utils.MoveMessage("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" },
-                    client, inbox, index);
+                Utils.MoveMessage(
+                    "hh // Новые вакансии", 
+                    new List<string> { "hh", "Новые вакансии" },
+                    client, inbox, index
+                );
                 return;
             }
 
-            if (message.Subject.Contains("Приглашение на собеседование") ||
+            if (
+                message.Subject.Contains("Приглашение на собеседование") ||
                 Regex.Match(message.Subject, @"Ваше резюме на \w*\.?hh.ru интересно работодателю").Success
             )
             {
-                Utils.MoveMessage("hh // Приглашение", new List<string> { "hh", "Приглашения" },
-                    client, inbox, index);
+                Utils.MoveMessage(
+                    "hh // Приглашение", 
+                    new List<string> { "hh", "Приглашения" },
+                    client, inbox, index
+                );
                 return;
             }
 
@@ -260,6 +267,9 @@ namespace MailFilter
                     Utils.MoveMessage("social // instagram", new List<string> { "social", "instagram" }, client, inbox, index);
                     return;
                 case "pinterest.com":
+                case "explore.pinterest.com":
+                case "ideas.pinterest.com":
+                case "inspire.pinterest.com":
                     Utils.MoveMessage("social // pinterest", new List<string> { "social", "pinterest" }, client, inbox, index);
                     return;
                 case "pixiv.net":
@@ -310,6 +320,9 @@ namespace MailFilter
                     {
                         case "вам пришло новое сообщение":
                             Utils.MoveMessage("store // Avito // New message", new List<string> { "stores", "Avito", "New message" }, client, inbox, index);
+                            return;
+                        case "новые объявления":
+                            Utils.MoveMessage("store // Avito // New ads", new List<string> { "stores", "Avito", "New ads" }, client, inbox, index);
                             return;
                     }
                     return;
