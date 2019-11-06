@@ -32,10 +32,8 @@ namespace MailFilter
         {
             List<string> GamePublishers = new List<string>
             {
-                "battlerite.com",
                 "blizzard.com",
                 "capcom.com",
-                "daybreakgames.com",
                 "discordapp.com",
                 "ea.com",
                 "epicgames.com",
@@ -43,7 +41,6 @@ namespace MailFilter
                 "hirezstudios.com",
                 "humblebundle.com",
                 "perfectworld.com",
-                "steampowered.com",
                 "stopgame.ru",
                 "twitch.tv",
                 "unity3d.com",
@@ -55,22 +52,33 @@ namespace MailFilter
 
             switch (host)
             {
+                case "amplitude-studios.com":
+                case "battlerite.com":
                 case "crypticstudios.com":
-                case "gaijin.net":
-                case "playkey.net":
-                case "ppy.sh":
+                case "daybreakgames.com":
                 case "email.games2gether.com":
-                case "ru.playblackdesert.com":
+                case "gaijin.net":
+                case "mobafire.com":
+                case "playkey.net":
                     Utils.MoveMessage("gaemz", new List<string> { "gaemz" }, client, inbox, index);
+                    return;
+                case "ru.playblackdesert.com":
+                    Utils.MoveMessage("gaemz // bdesert", new List<string> { "gaemz", "black_desert" }, client, inbox, index);
                     return;
                 case "gog.com":
                 case "email2.gog.com":
                     Utils.MoveMessage("gaemz // GOG", new List<string> { "gaemz", "gog" }, client, inbox, index);
                     return;
+                case "ppy.sh":
+                    Utils.MoveMessage("gaemz // OSU!", new List<string> { "gaemz", "osu" }, client, inbox, index);
+                    return;
                 case "riotgames.com":
                 case "email.riotgames.com":
                 case "riotgames.zendesk.com":
                     Utils.MoveMessage("gaemz // LoL", new List<string> { "gaemz", "LoL" }, client, inbox, index);
+                    return;
+                case "steampowered.com":
+                    Utils.MoveMessage("gaemz // steam", new List<string> { "gaemz", "steam" }, client, inbox, index);
                     return;
                 case "news.ubisoft.com":
                 case "ubi.com":
@@ -81,8 +89,11 @@ namespace MailFilter
 
             foreach (var gamePublisher in GamePublishers)
                 if (host.Contains(gamePublisher))
-                    Utils.MoveMessage("gaemz", new List<string> { "gaemz", gamePublisher }, client, inbox,
-                        index);
+                    Utils.MoveMessage(
+                        "gaemz", 
+                        new List<string> { "gaemz", gamePublisher }, 
+                        client, inbox, index
+                    );
         }
 
         public static void GosUslugi(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
@@ -99,11 +110,12 @@ namespace MailFilter
         public static void HeadHunter(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
         {
             List<string> HeadHunterMailboxes = new List<string> {
-                "noreply@career.ru",
+                "auth@site.hh.ru",
                 "no_reply@hh.ru",
-                "noreply@hh.ru",
                 "no-reply@rabota.ru",
-                "noreply@mailer.rabota.ru"
+                "noreply@career.ru",
+                "noreply@hh.ru",
+                "noreply@mailer.rabota.ru",
             };
 
             if (!HeadHunterMailboxes.Contains(message.From.Mailboxes.First().Address)) return;
@@ -123,6 +135,7 @@ namespace MailFilter
                         inbox, index);
                     return;
                 case "работодатель не готов пригласить вас на интервью":
+                case "работодатель не готов сделать вам предложение":
                     Utils.MoveMessage("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" }, client, inbox, index);
                     return;
                 case "ответ на ваше резюме":
@@ -177,6 +190,12 @@ namespace MailFilter
 
             if (Regex.Match(message.Subject, @"Компания .+ не готова сделать Вам предложение").Success)
                 Utils.MoveMessage("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" }, client, inbox, index);
+
+            Utils.MoveMessage(
+                "hh // unknown", 
+                new List<string> { "hh", "\u041f\u0440\u043e\u0447\u0438\u0435 \u043f\u0438\u0441\u044c\u043c\u0430" }, 
+                client, inbox, index
+            );
         }
 
         public static void Learnings(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
@@ -279,6 +298,7 @@ namespace MailFilter
                     Utils.MoveMessage("social // twitter", new List<string> { "social", "twitter" }, client, inbox, index);
                     return;
                 case "vk.com":
+                case "notify.vk.com":
                     Utils.MoveMessage("social // vk", new List<string> { "social", "vk" }, client, inbox, index);
                     return;
                 case "youtube.com":
@@ -294,6 +314,10 @@ namespace MailFilter
 
             switch (host)
             {
+                case "5ka.ru":
+                case "mail.5ka.ru":
+                    Utils.MoveMessage("store // 5ka", new List<string> { "stores", "5ka.ru" }, client, inbox, index);
+                    return;
                 case "email.alibaba.com":
                 case "info.aliexpress.com":
                 case "notice.aliexpress.com":
