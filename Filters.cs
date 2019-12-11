@@ -72,28 +72,31 @@ namespace MailFilter
                 case "ppy.sh":
                     Utils.MoveMessage("gaemz // OSU!", new List<string> { "gaemz", "osu" }, client, inbox, index);
                     return;
-                case "riotgames.com":
-                case "email.riotgames.com":
-                case "riotgames.zendesk.com":
-                    Utils.MoveMessage("gaemz // LoL", new List<string> { "gaemz", "LoL" }, client, inbox, index);
-                    return;
                 case "steampowered.com":
                     Utils.MoveMessage("gaemz // steam", new List<string> { "gaemz", "steam" }, client, inbox, index);
                     return;
-                case "news.ubisoft.com":
-                case "ubi.com":
-                case "ubisoft.com":
-                    Utils.MoveMessage("gaemz // ubisoft", new List<string> { "gaemz", "Ubisoft" }, client, inbox, index);
-                    return;
+            }
+
+            if (host.Contains("riotgames"))
+            {
+                Utils.MoveMessage("gaemz // LoL", new List<string> { "gaemz", "LoL" }, client, inbox, index);
+                return;
+            }
+
+            if (host.Contains("ubi"))
+            {
+                Utils.MoveMessage("gaemz // ubisoft", new List<string> { "gaemz", "Ubisoft" }, client, inbox, index);
+                return;
             }
 
             foreach (var gamePublisher in GamePublishers)
-                if (host.Contains(gamePublisher))
+                if (host.Contains(gamePublisher)) {
                     Utils.MoveMessage(
-                        "gaemz", 
-                        new List<string> { "gaemz", gamePublisher }, 
+                        "gaemz",
+                        new List<string> { "gaemz", gamePublisher },
                         client, inbox, index
                     );
+                }
         }
 
         public static void GosUslugi(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
@@ -115,6 +118,7 @@ namespace MailFilter
                 "no-reply@rabota.ru",
                 "noreply@career.ru",
                 "noreply@hh.ru",
+                "noreply@hh.ua",
                 "noreply@mailer.rabota.ru",
             };
 
@@ -122,21 +126,14 @@ namespace MailFilter
 
             switch (message.Subject.ToLower())
             {
-                case "вакансия, на которую вы откликались, перенесена в архив":
-                case "headhunter: работодатели не знают о вашем резюме":
-                case "ваше резюме давно не обновлялось":
-                case "ваше резюме просматривали":
-                    inbox.AddFlags(index, MessageFlags.Deleted, true);
-                    inbox.Expunge();
-                    Console.WriteLine("deleted");
-                    return;
+                case "вы искали похожие вакансии":
                 case "подходящие вакансии":
                     Utils.MoveMessage("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" }, client,
                         inbox, index);
                     return;
                 case "работодатель не готов пригласить вас на интервью":
                 case "работодатель не готов сделать вам предложение":
-                    Utils.MoveMessage("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" }, client, inbox, index);
+                    Utils.MoveMessage("hh // rejected :(", new List<string> { "hh", "Потрачено" }, client, inbox, index);
                     return;
                 case "ответ на ваше резюме":
                 case "предложение о работе":
@@ -151,11 +148,35 @@ namespace MailFilter
                     return;
             }
 
-            if (Regex.Match(message.Subject, @"^Вакансия .+: вам написали из .+$").Success
+            if (
+                message.Subject.Contains("ваше резюме давно не обновлялось") ||
+                message.Subject.Contains("обновите резюме") ||
+                message.Subject.Contains("работодатели не знают о вашем резюме")
             )
             {
                 Utils.MoveMessage(
-                    "hh // Новое сообщение", 
+                    "hh // Bump your resume",
+                    new List<string> { "hh", "bump_your_resume" },
+                    client, inbox, index
+                );
+                return;
+            }
+
+            if (
+                message.Subject.Contains("ваше резюме просматривали") ||
+                (message.Subject.Contains("вакансия") && message.Subject.Contains("перенесена в архив"))
+            )
+            {
+                inbox.AddFlags(index, MessageFlags.Deleted, true);
+                inbox.Expunge();
+                Console.WriteLine("deleted");
+                return;
+            }
+
+            if (Regex.Match(message.Subject, @"^Вакансия .+: вам написали из .+$").Success)
+            {
+                Utils.MoveMessage(
+                    "hh // Новое сообщение",
                     new List<string> { "hh", "Новое сообщение" },
                     client, inbox, index
                 );
@@ -168,7 +189,7 @@ namespace MailFilter
                 message.Subject.Contains("свежие вакансии для вас"))
             {
                 Utils.MoveMessage(
-                    "hh // Новые вакансии", 
+                    "hh // Новые вакансии",
                     new List<string> { "hh", "Новые вакансии" },
                     client, inbox, index
                 );
@@ -181,7 +202,7 @@ namespace MailFilter
             )
             {
                 Utils.MoveMessage(
-                    "hh // Приглашение", 
+                    "hh // Приглашение",
                     new List<string> { "hh", "Приглашения" },
                     client, inbox, index
                 );
@@ -192,8 +213,8 @@ namespace MailFilter
                 Utils.MoveMessage("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" }, client, inbox, index);
 
             Utils.MoveMessage(
-                "hh // unknown", 
-                new List<string> { "hh", "\u041f\u0440\u043e\u0447\u0438\u0435 \u043f\u0438\u0441\u044c\u043c\u0430" }, 
+                "hh // unknown",
+                new List<string> { "hh", "\u041f\u0440\u043e\u0447\u0438\u0435 \u043f\u0438\u0441\u044c\u043c\u0430" },
                 client, inbox, index
             );
         }
@@ -282,14 +303,9 @@ namespace MailFilter
                 case "facebookmail.com":
                     Utils.MoveMessage("social // facebook", new List<string> { "social", "facebook" }, client, inbox, index);
                     return;
+                case "mail.instagram.com":
                 case "instagram.com":
                     Utils.MoveMessage("social // instagram", new List<string> { "social", "instagram" }, client, inbox, index);
-                    return;
-                case "pinterest.com":
-                case "explore.pinterest.com":
-                case "ideas.pinterest.com":
-                case "inspire.pinterest.com":
-                    Utils.MoveMessage("social // pinterest", new List<string> { "social", "pinterest" }, client, inbox, index);
                     return;
                 case "pixiv.net":
                     Utils.MoveMessage("social // pixiv", new List<string> { "social", "pixiv" }, client, inbox, index);
@@ -305,6 +321,12 @@ namespace MailFilter
                     Utils.MoveMessage("social // youtube", new List<string> { "social", "youtube" }, client, inbox, index);
                     return;
             }
+
+            if (host.Contains("pinterest.com"))
+            {
+                Utils.MoveMessage("social // pinterest", new List<string> { "social", "pinterest" }, client, inbox, index);
+                return;
+            }
         }
 
         public static void Stores(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
@@ -318,10 +340,15 @@ namespace MailFilter
                 case "mail.5ka.ru":
                     Utils.MoveMessage("store // 5ka", new List<string> { "stores", "5ka.ru" }, client, inbox, index);
                     return;
+                case "alibaba.com":
+                case "aliexpress.com":
                 case "email.alibaba.com":
                 case "info.aliexpress.com":
                 case "notice.aliexpress.com":
                     Utils.MoveMessage("store // AliExpress", new List<string> { "stores", "AliExpress" }, client, inbox, index);
+                    return;
+                case "forttd.ru":
+                    Utils.MoveMessage("store // TD Fort", new List<string> { "stores", "td_fort" }, client, inbox, index);
                     return;
                 case "oldi.ru":
                 case "shoppilot.ru":
@@ -331,9 +358,14 @@ namespace MailFilter
                 case "news.ozon.ru":
                     Utils.MoveMessage("store // Ozon", new List<string> { "stores", "Ozon" }, client, inbox, index);
                     return;
+                case "megafon.ru":
                 case "shop.megafon.ru":
                 case "e.shop.megafon.ru":
                     Utils.MoveMessage("store // megafon", new List<string> { "stores", "megafon" }, client, inbox, index);
+                    return;
+                case "ulmart.ru":
+                case "em.ulmart.ru":
+                    Utils.MoveMessage("store // ulmart", new List<string> { "stores", "ulmart" }, client, inbox, index);
                     return;
             }
 
@@ -377,6 +409,9 @@ namespace MailFilter
                 case "Yandex.Webmaster":
                     Utils.MoveMessage("Yandex // Webmaster", new List<string> { "Yandex", "Webmaster" }, client, inbox, index);
                     break;
+                case "Яндекс.Коннект":
+                    Utils.MoveMessage("Yandex // Connect", new List<string> { "Yandex", "Connect" }, client, inbox, index);
+                    break;
                 case "Яндекс.Трекер":
                     Utils.MoveMessage("Yandex // Tracker", new List<string> { "Yandex", "Tracker" }, client, inbox, index);
                     break;
@@ -418,6 +453,20 @@ namespace MailFilter
             {
                 case "portal@azbukavkusa.ru":
                     Utils.MoveMessage("Tmp", new List<string> { "tmp" }, client, inbox, index);
+                    break;
+            }
+        }
+
+        public static void Other(ImapClient client, IMailFolder inbox, MimeMessage message, int index)
+        {
+            var senderAddress = message.From.Mailboxes.FirstOrDefault().Address;
+            var senderName = message.From.Mailboxes.FirstOrDefault().Name;
+            var host = new MailAddress(senderAddress).Host;
+
+            switch (senderAddress)
+            {
+                case "bee4you@beeline.ru":
+                    Utils.MoveMessage("Beeline", new List<string> { "beeline" }, client, inbox, index);
                     break;
             }
         }
