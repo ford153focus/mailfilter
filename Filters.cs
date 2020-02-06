@@ -363,6 +363,12 @@ namespace MailFilter
                 case "e.shop.megafon.ru":
                     Utils.MoveMessage("store // megafon", new List<string> { "stores", "megafon" }, client, inbox, index);
                     return;
+                case "madrobots.ru":
+                    Utils.MoveMessage("store // madrobots", new List<string> { "stores", "madrobots" }, client, inbox, index);
+                    return;
+                case "my-shop.ru":
+                    Utils.MoveMessage("store // my-shop.ru", new List<string> { "stores", "my-shop.ru" }, client, inbox, index);
+                    return;
                 case "ulmart.ru":
                 case "em.ulmart.ru":
                     Utils.MoveMessage("store // ulmart", new List<string> { "stores", "ulmart" }, client, inbox, index);
@@ -379,6 +385,9 @@ namespace MailFilter
                             return;
                         case "новые объявления":
                             Utils.MoveMessage("store // Avito // New ads", new List<string> { "stores", "Avito", "New ads" }, client, inbox, index);
+                            return;
+                        case "подтверждение подписки на сохраненный поиск":
+                            Utils.MoveMessage("store // Avito // Subscription Confirmation", new List<string> { "stores", "Avito", "Subscription Confirmation" }, client, inbox, index);
                             return;
                     }
                     return;
