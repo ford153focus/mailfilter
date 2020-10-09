@@ -185,6 +185,7 @@ namespace MailFilter
 
 
             if (Regex.Match(message.Subject, @"Новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
+                Regex.Match(message.Subject, @".+, новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
                 message.Subject.Contains("подходящие вакансии") ||
                 message.Subject.Contains("свежие вакансии для вас"))
             {
