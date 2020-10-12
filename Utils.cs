@@ -39,7 +39,7 @@ namespace MailFilter
             {
                 // Get subfolder
                 // Try to create subfolder on error
-                IMailFolder currentFolder = wMsg.client.GetFolder(wMsg.client.PersonalNamespaces[0]);
+                IMailFolder currentFolder = wMsg.Client.GetFolder(wMsg.Client.PersonalNamespaces[0]);
                 foreach (var folder in targetFolder)
                 {
                     try
@@ -53,8 +53,8 @@ namespace MailFilter
                 }
 
                 // Move
-                wMsg.inbox.MoveTo(wMsg.index, currentFolder);
-                wMsg.inbox.Expunge();
+                wMsg.Inbox.MoveTo(wMsg.Index, currentFolder);
+                wMsg.Inbox.Expunge();
 
                 SuccessWrite(outputMessage);
             }

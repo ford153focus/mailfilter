@@ -6,12 +6,12 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            if (wMsg.host.Contains("bspb.ru"))
+            if (wMsg.Host.Contains("bspb.ru"))
             {
                 Utils.MoveMessage("Banks // Bank SPB", new List<string> { "Banks", "Bank SPB" }, wMsg);
             }
 
-            if (wMsg.host.Contains("tinkoff.ru"))
+            if (wMsg.Host.Contains("tinkoff.ru"))
             {
                 Utils.MoveMessage("Banks // Tinkoff", new List<string> { "Banks", "Tinkoff" }, wMsg);
             }

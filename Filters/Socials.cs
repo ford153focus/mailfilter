@@ -6,7 +6,7 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            switch (wMsg.host)
+            switch (wMsg.Host)
             {
                 case "facebookmail.com":
                     Utils.MoveMessage("social // facebook", new List<string> { "social", "facebook" }, wMsg);
@@ -33,7 +33,7 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.host.Contains("pinterest.com"))
+            if (wMsg.Host.Contains("pinterest.com"))
             {
                 Utils.MoveMessage("social // pinterest", new List<string> { "social", "pinterest" }, wMsg);
                 return;

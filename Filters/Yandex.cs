@@ -6,7 +6,7 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            switch (wMsg.senderAddress)
+            switch (wMsg.SenderAddress)
             {
                 case "cloud@support.yandex.ru":
                 case "CloudPartnerHelp@yandex.ru":
@@ -20,7 +20,7 @@ namespace MailFilter.Filters
                     break;
             }
 
-            switch (wMsg.senderName)
+            switch (wMsg.SenderName)
             {
                 case "Yandex.Webmaster":
                 case "Яндекс.Вебмастер":
@@ -35,7 +35,7 @@ namespace MailFilter.Filters
                     break;
             }
 
-            switch (wMsg.host)
+            switch (wMsg.Host)
             {
                 case "chef.yandex.ru":
                     Utils.MoveMessage("Yandex // Chef", new List<string> { "Yandex", "Chef" }, wMsg);

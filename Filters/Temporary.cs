@@ -6,7 +6,7 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            switch (wMsg.senderAddress)
+            switch (wMsg.SenderAddress)
             {
                 case "portal@azbukavkusa.ru":
                     Utils.MoveMessage("Tmp", new List<string> { "tmp" }, wMsg);

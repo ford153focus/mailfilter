@@ -47,12 +47,12 @@ namespace MailFilter
         {
             Console.WriteLine(
                 "Subject: '{0}' from '{1}' to '{2}'",
-                wMsg.message.Subject,
-                !wMsg.message.From.Mailboxes.Any() ? null : wMsg.message.From.Mailboxes.First(),
-                !wMsg.message.To.Mailboxes.Any() ? null : wMsg.message.To.Mailboxes.First()
+                wMsg.Message.Subject,
+                !wMsg.Message.From.Mailboxes.Any() ? null : wMsg.Message.From.Mailboxes.First(),
+                !wMsg.Message.To.Mailboxes.Any() ? null : wMsg.Message.To.Mailboxes.First()
             );
 
-            foreach (var filter in wMsg.filters)
+            foreach (var filter in wMsg.Filters)
             {
                 object[] parametersArray = { wMsg };
                 Type.GetType("MailFilter.Filters."+filter)

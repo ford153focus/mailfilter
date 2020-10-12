@@ -11,7 +11,7 @@ namespace MailFilter.Filters
                 "no_reply@fcod.nalog.ru"
             };
 
-            if (gosuMailboxes.Contains(wMsg.senderAddress))
+            if (gosuMailboxes.Contains(wMsg.SenderAddress))
                 Utils.MoveMessage("GosUslugi", new List<string> { "ГосУслуги" }, wMsg);
         }
     }

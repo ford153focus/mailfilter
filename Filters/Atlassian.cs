@@ -6,13 +6,13 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            if (wMsg.host.Contains("atlassian.net"))
+            if (wMsg.Host.Contains("atlassian.net"))
             {
                 Utils.MoveMessage("Jira", new List<string> { "Jira" }, wMsg);
                 return;
             }
 
-            if (wMsg.host == "bitbucket.org")
+            if (wMsg.Host == "bitbucket.org")
             {
                 Utils.MoveMessage("Bitbucket", new List<string> { "Bitbucket" }, wMsg);
             }

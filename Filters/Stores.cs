@@ -6,7 +6,7 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            switch (wMsg.host)
+            switch (wMsg.Host)
             {
                 case "05.ru":
                     Utils.MoveMessage("store // 05.ru", new List<string> { "stores", "05.ru" }, wMsg);
@@ -73,7 +73,7 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.host.Contains("blablacar.com"))
+            if (wMsg.Host.Contains("blablacar.com"))
             {
                 Utils.MoveMessage("store // BlaBlaCar", new List<string> { "stores", "BlaBlaCar" }, wMsg);
                 return;
@@ -85,13 +85,13 @@ namespace MailFilter.Filters
 
         public static void AliExpress(WrappedMessage wMsg)
         {
-            if (wMsg.senderAddress == "promotion@aliexpress.com")
+            if (wMsg.SenderAddress == "promotion@aliexpress.com")
             {
                 Utils.MoveMessage("store // AliExpress // Promo", new List<string> { "stores", "AliExpress", "Promo" }, wMsg);
                 return;
             }
 
-            if (wMsg.senderAddress == "transaction@notice.aliexpress.com")
+            if (wMsg.SenderAddress == "transaction@notice.aliexpress.com")
             {
                 Utils.MoveMessage("store // AliExpress // Transaction", new List<string> { "stores", "AliExpress", "Transaction" }, wMsg);
                 return;
@@ -100,9 +100,9 @@ namespace MailFilter.Filters
 
         public static void Avito(WrappedMessage wMsg)
         {
-            if (wMsg.senderAddress != "noreply@avito.ru") return;
+            if (wMsg.SenderAddress != "noreply@avito.ru") return;
 
-            switch (wMsg.message.Subject.ToLower())
+            switch (wMsg.Message.Subject.ToLower())
             {
                 case "вам пришло новое сообщение":
                 case "вам пришли новые сообщения":
@@ -119,11 +119,11 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.message.Subject.Contains("Персональная подборка автомобилей"))
+            if (wMsg.Message.Subject.Contains("Персональная подборка автомобилей"))
             {
                 Utils.MoveMessage("store // Avito // New ads // Cars", new List<string> { "stores", "Avito", "New ads", "Cars" }, wMsg);
             }
-            else if (wMsg.message.Subject.Contains("Не пропустите подборку интересных объявлений"))
+            else if (wMsg.Message.Subject.Contains("Не пропустите подборку интересных объявлений"))
             {
                 Utils.MoveMessage("store // Avito // New ads", new List<string> { "stores", "Avito", "New ads" }, wMsg);
             }

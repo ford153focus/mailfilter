@@ -9,31 +9,31 @@ namespace MailFilter
 {
     public class WrappedMessage
     {
-        public ImapClient client;
-        public IMailFolder inbox;
-        public List<string> filters;
+        public ImapClient Client;
+        public IMailFolder Inbox;
+        public List<string> Filters;
 
-        public int index;
-        public MimeMessage message;
+        public int Index;
+        public MimeMessage Message;
 
-        public string host;
-        public string senderAddress;
-        public string senderName;
+        public string Host;
+        public string SenderAddress;
+        public string SenderName;
 
         public WrappedMessage(ImapClient client, IMailFolder inbox, int index, List<string> filters)
         {
-            this.client = client;
-            this.inbox = inbox;
-            this.index = index;
-            this.filters = filters;
+            this.Client = client;
+            this.Inbox = inbox;
+            this.Index = index;
+            this.Filters = filters;
 
-            message = inbox.GetMessage(index);
+            Message = inbox.GetMessage(index);
 
-            senderAddress = message.From.Mailboxes.FirstOrDefault().Address;
-            senderName = message.From.Mailboxes.FirstOrDefault().Name;
+            SenderAddress = Message.From.Mailboxes.FirstOrDefault().Address;
+            SenderName = Message.From.Mailboxes.FirstOrDefault().Name;
 
-            MailAddress senderAddressObj = new MailAddress(senderAddress);
-            host = senderAddressObj.Host;
+            MailAddress senderAddressObj = new MailAddress(SenderAddress);
+            Host = senderAddressObj.Host;
         }
     }
 }

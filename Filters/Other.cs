@@ -14,9 +14,9 @@ namespace MailFilter.Filters
 
         public static void AutoRu(WrappedMessage wMsg)
         {
-            if (wMsg.senderAddress != "noreply@auto.ru") return;
+            if (wMsg.SenderAddress != "noreply@auto.ru") return;
 
-            if (!string.IsNullOrEmpty(wMsg.message.Subject) && wMsg.message.Subject.Trim().StartsWith("Новые объявления: "))
+            if (!string.IsNullOrEmpty(wMsg.Message.Subject) && wMsg.Message.Subject.Trim().StartsWith("Новые объявления: "))
             {
                 Utils.MoveMessage("stores // auto.ru / new ads", new List<string> { "Stores", "auto.ru", "new ads" }, wMsg);
             }
@@ -28,7 +28,7 @@ namespace MailFilter.Filters
 
         public static void Beeline(WrappedMessage wMsg)
         {
-            if (wMsg.senderAddress == "bee4you@beeline.ru")
+            if (wMsg.SenderAddress == "bee4you@beeline.ru")
             {
                 Utils.MoveMessage("Beeline", new List<string> { "beeline" }, wMsg);
                 return;
@@ -37,10 +37,10 @@ namespace MailFilter.Filters
 
         public static void Cian(WrappedMessage wMsg)
         {
-            if (wMsg.host != "cian.ru") return;
+            if (wMsg.Host != "cian.ru") return;
 
-            if (wMsg.message.Subject == "Индивидуальная подборка объявлений для вас" ||
-                wMsg.message.Subject.StartsWith("Свежие предложения по вашей подписке"))
+            if (wMsg.Message.Subject == "Индивидуальная подборка объявлений для вас" ||
+                wMsg.Message.Subject.StartsWith("Свежие предложения по вашей подписке"))
             {
                 Utils.MoveMessage("stores // cian.ru", new List<string> { "stores", "cian.ru" }, wMsg);
             }
@@ -52,13 +52,13 @@ namespace MailFilter.Filters
 
         public static void RussianPost(WrappedMessage wMsg)
         {
-            if (wMsg.senderAddress == "notification@russianpost.ru")
+            if (wMsg.SenderAddress == "notification@russianpost.ru")
             {
                 Utils.MoveMessage("RussianPost", new List<string> { "Почта России" }, wMsg);
                 return;
             }
 
-            if (wMsg.senderAddress == "news@pochta.ru")
+            if (wMsg.SenderAddress == "news@pochta.ru")
             {
                 Utils.MoveMessage("RussianPost // News", new List<string> { "Почта России", "Новости" }, wMsg);
                 return;

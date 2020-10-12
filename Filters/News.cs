@@ -6,7 +6,7 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            switch (wMsg.host)
+            switch (wMsg.Host)
             {
                 case "amd-member.com":
                     Utils.MoveMessage("News // AMD", new List<string> { "News", "AMD" }, wMsg);
