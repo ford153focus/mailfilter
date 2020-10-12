@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using MailKit;
-using MailKit.Net.Imap;
 
 namespace MailFilter
 {
@@ -25,27 +24,44 @@ namespace MailFilter
             Console.WriteLine();
         }
 
-        public static void MoveMessage(string outputMessage, List<string> targetFolder, ImapClient client,
-            IMailFolder inbox, int index)
+        public static void ErrorWrite(string message)
         {
-            // Try create subfolder
-            // Get subfolder on error
-            IMailFolder currentFolder = client.GetFolder(client.PersonalNamespaces[0]);
-            foreach (var folder in targetFolder)
-                try
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(message);
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        public static void MoveMessage(string outputMessage, List<string> targetFolder, WrappedMessage wMsg)
+        {
+            try
+            {
+                // Get subfolder
+                // Try to create subfolder on error
+                IMailFolder currentFolder = wMsg.client.GetFolder(wMsg.client.PersonalNamespaces[0]);
+                foreach (var folder in targetFolder)
                 {
-                    currentFolder = currentFolder.GetSubfolder(folder);
-                }
-                catch (Exception)
-                {
-                    currentFolder = currentFolder.Create(folder, true);
+                    try
+                    {
+                        currentFolder = currentFolder.GetSubfolder(folder);
+                    }
+                    catch (Exception)
+                    {
+                        currentFolder = currentFolder.Create(folder, true);
+                    }
                 }
 
-            // Move
-            inbox.MoveTo(index, currentFolder);
-            inbox.Expunge();
+                // Move
+                wMsg.inbox.MoveTo(wMsg.index, currentFolder);
+                wMsg.inbox.Expunge();
 
-            SuccessWrite(outputMessage);
+                SuccessWrite(outputMessage);
+            }
+            catch (Exception e)
+            {
+                ErrorWrite(e.ToString());
+            }
         }
     }
 }

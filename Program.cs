@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Imap;
-using MimeKit;
 
 namespace MailFilter
 {
@@ -29,46 +28,50 @@ namespace MailFilter
             IMailFolder inbox = client.Inbox;
             inbox.Open(FolderAccess.ReadWrite);
 
+            // convert filters: from JsonArray to List of strings
+            var filters = new List<string>();
+            foreach (dynamic filter in mailbox["applicable_filters"]) {
+                filters.Add(filter.ToString().Trim('"'));
+            }
+
             for (var i = 0; i < inbox.Count; i++)
             {
-                // convert JsonArray to List
-                var filters = new List<string>();
-                foreach (dynamic filter in mailbox["applicable_filters"]) filters.Add(filter);
-                ProcessMessage(client, inbox, i, filters);
+                var wrappedMessage = new WrappedMessage(client, inbox, i, filters);
+                ProcessMessage(wrappedMessage);
             }
 
             client.Disconnect(true);
         }
 
-        private static void ProcessMessage(ImapClient client, IMailFolder inbox, int i, List<string> filters)
+        private static void ProcessMessage(WrappedMessage wMsg)
         {
-            MimeMessage message = inbox.GetMessage(i);
-
             Console.WriteLine(
                 "Subject: '{0}' from '{1}' to '{2}'",
-                message.Subject,
-                !message.From.Mailboxes.Any() ? null : message.From.Mailboxes.First(),
-                !message.To.Mailboxes.Any() ? null : message.To.Mailboxes.First()
+                wMsg.message.Subject,
+                !wMsg.message.From.Mailboxes.Any() ? null : wMsg.message.From.Mailboxes.First(),
+                !wMsg.message.To.Mailboxes.Any() ? null : wMsg.message.To.Mailboxes.First()
             );
 
-            foreach (var filter in filters)
+            foreach (var filter in wMsg.filters)
             {
-                object[] parametersArray = { client, inbox, message, i };
-                MethodInfo method = typeof(Filters).GetMethod(filter.Trim('"'));
-                method.Invoke(null, parametersArray);
+                object[] parametersArray = { wMsg };
+                Type.GetType("MailFilter.Filters."+filter)
+                    .GetMethod("Filter")
+                    .Invoke(null, parametersArray);
             }
         }
 
         private static async Task Main()
         {
             var mailboxesCfgPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + "mailboxes.json";
-            var mailboxesCfgStr = File.ReadAllText(mailboxesCfgPath, Encoding.UTF8);
+            var mailboxesCfgStr = await File.ReadAllTextAsync(mailboxesCfgPath, Encoding.UTF8);
+
             JsonValue mailboxesCfg = JsonValue.Parse(mailboxesCfgStr);
             JsonArray mailboxes = (JsonArray)mailboxesCfg["mailboxes"];
 
             var mailboxTasks = new List<Task>();
 
-            foreach (object mailbox in mailboxes)
+            foreach (JsonValue mailbox in mailboxes)
             {
                 mailboxTasks.Add(
                     Task.Run(() => { ProcessMailbox(mailbox); })
