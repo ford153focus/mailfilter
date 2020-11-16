@@ -41,6 +41,9 @@ namespace MailFilter.Filters
                 case "qt.io":
                     Utils.MoveMessage("News // Qt", new List<string> { "News", "Qt" }, wMsg);
                     return;
+                case "vc.ru":
+                    Utils.MoveMessage("News // vc.ru", new List<string> { "News", "vc.ru" }, wMsg);
+                    return;
             }
         }
     }

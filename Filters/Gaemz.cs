@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace MailFilter.Filters
 {
@@ -164,13 +165,8 @@ namespace MailFilter.Filters
             }
 
             // Wishlist item is on sale
-            if (wMsg.Message.Subject == "An item on your Steam wishlist is on sale!" ||
-                wMsg.Message.Subject == "Товар из вашего списка желаемого продается со скидкой!" ||
-                wMsg.Message.Subject.Contains(" from your Steam wishlist is now on sale!") ||
-                wMsg.Message.Subject.Contains(" from your Steam wishlist are on sale!") ||
-                wMsg.Message.Subject.Contains(" items from your Steam wishlist are now on sale!") ||
-                wMsg.Message.Subject.Contains(" из вашего списка желаемого в Steam  продаётся со скидкой!") ||
-                wMsg.Message.Subject.Contains(" из вашего списка желаемого продаются со скидкой!"))
+            if (Regex.Match(wMsg.Message.Subject, @"(on|from) your Steam wishlist (is|are) (now )?on sale!$").Success ||
+                Regex.Match(wMsg.Message.Subject, @"из вашего списка желаемого (в Steam )?прода(е|ё|ю)тся со скидкой!$").Success)
             {
                 Utils.MoveMessage("gaemz // Steam // Wishlist item is on sale", new List<string> { "gaemz", "Steam", "Wishlist item is on sale" }, wMsg);
                 return;

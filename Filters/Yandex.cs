@@ -47,10 +47,10 @@ namespace MailFilter.Filters
                     Utils.MoveMessage("Yandex // Disk", new List<string> { "Yandex", "Disk" }, wMsg);
                     break;
                 case "kinopoisk.ru":
-                    Utils.MoveMessage("Yandex // Maps", new List<string> { "Yandex", "Maps" }, wMsg);
+                    Utils.MoveMessage("Yandex // КиноПоиск", new List<string> { "Yandex", "КиноПоиск" }, wMsg);
                     break;
                 case "maps.yandex.ru":
-                    Utils.MoveMessage("Yandex // КиноПоиск", new List<string> { "Yandex", "КиноПоиск" }, wMsg);
+                    Utils.MoveMessage("Yandex // Maps", new List<string> { "Yandex", "Maps" }, wMsg);
                     break;
                 case "market.yandex.ru":
                     Utils.MoveMessage("Yandex // Market", new List<string> { "Yandex", "Market" }, wMsg);

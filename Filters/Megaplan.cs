@@ -16,6 +16,7 @@ namespace MailFilter.Filters
             switch (wMsg.SenderName)
             {
                 case "Мегаплан. Полезное чтение":
+                case "Полезное чтение":
                     Utils.MoveMessage("Мегаплан // Полезное чтение", new List<string> { "megaplan", "reading" }, wMsg);
                     break;
             }
