@@ -10,6 +10,8 @@ namespace MailFilter.Filters
             Beeline(wMsg);
             Cian(wMsg);
             RussianPost(wMsg);
+
+            if (wMsg.Host == "beget.ru") { Utils.MoveMessage("BeGet", new List<string> { "beget" }, wMsg); }
         }
 
         public static void AutoRu(WrappedMessage wMsg)

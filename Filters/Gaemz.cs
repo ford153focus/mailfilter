@@ -18,7 +18,10 @@ namespace MailFilter.Filters
                 case "playkey.net":
                     Utils.MoveMessage("gaemz // Other", new List<string> { "gaemz", "Other" }, wMsg);
                     return;
-                case "ru.playblackdesert.com":
+                case "4game.com":
+                    Utils.MoveMessage("gaemz // 4game", new List<string> { "gaemz", "4game" }, wMsg);
+                    return;
+                 case "ru.playblackdesert.com":
                     Utils.MoveMessage("gaemz // bdesert", new List<string> { "gaemz", "black_desert" }, wMsg);
                     return;
                 case "blizzard.com":
@@ -166,11 +169,13 @@ namespace MailFilter.Filters
 
             // Wishlist item is on sale
             if (Regex.Match(wMsg.Message.Subject, @"(on|from) your Steam wishlist (is|are) (now )?on sale!$").Success ||
-                Regex.Match(wMsg.Message.Subject, @"из вашего списка желаемого (в Steam )?прода(е|ё|ю)тся со скидкой!$").Success)
+                Regex.Match(wMsg.Message.Subject, @"из вашего списка желаемого (в Steam\s+)?прода(е|ё|ю)тся со скидкой!$").Success)
             {
                 Utils.MoveMessage("gaemz // Steam // Wishlist item is on sale", new List<string> { "gaemz", "Steam", "Wishlist item is on sale" }, wMsg);
                 return;
             }
+
+            Utils.MoveMessage("gaemz // Steam // Other", new List<string> { "gaemz", "Steam", "other" }, wMsg);
         }
     }
 }

@@ -11,6 +11,11 @@ namespace MailFilter.Filters
                 Utils.MoveMessage("Banks // Bank SPB", new List<string> { "Banks", "Bank SPB" }, wMsg);
             }
 
+            if (wMsg.Host.Contains("raiffeisen.ru"))
+            {
+                Utils.MoveMessage("Banks // Райффайзенбанк", new List<string> { "Banks", "Райффайзенбанк" }, wMsg);
+            }
+
             if (wMsg.Host.Contains("tinkoff.ru"))
             {
                 Utils.MoveMessage("Banks // Tinkoff", new List<string> { "Banks", "Tinkoff" }, wMsg);
