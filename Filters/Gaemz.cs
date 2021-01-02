@@ -43,6 +43,7 @@ namespace MailFilter.Filters
                     Utils.MoveMessage("gaemz // EA", new List<string> { "gaemz", "EA" }, wMsg);
                     return;
                 case "epicgames.com":
+                case "accts.epicgames.com":
                     Utils.MoveMessage("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" }, wMsg);
                     return;
                 case "gog.com":

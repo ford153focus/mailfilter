@@ -38,6 +38,9 @@ namespace MailFilter.Filters
                 case "tjournal.ru":
                     Utils.MoveMessage("News // Tj", new List<string> { "News", "Tj" }, wMsg);
                     return;
+                case "announcements.soundcloud.com":
+                    Utils.MoveMessage("News // SoundCloud", new List<string> { "News", "SoundCloud" }, wMsg);
+                    return;
                 case "qt.io":
                     Utils.MoveMessage("News // Qt", new List<string> { "News", "Qt" }, wMsg);
                     return;
