@@ -15,7 +15,7 @@ namespace MailFilter
     {
         private static void ProcessMailbox(dynamic mailbox)
         {
-            Utils.WarningWrite(mailbox["login"]);
+            ConsoleUtils.WriteWarning(mailbox["login"]);
 
             // For demo-purposes, accept all SSL certificates
             var client = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
@@ -63,7 +63,7 @@ namespace MailFilter
 
         private static async Task Main()
         {
-            var mailboxesCfgPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + "mailboxes.json";
+            var mailboxesCfgPath = Path.Combine(Environment.CurrentDirectory, "mailboxes.json");
             var mailboxesCfgStr = await File.ReadAllTextAsync(mailboxesCfgPath, Encoding.UTF8);
 
             JsonValue mailboxesCfg = JsonValue.Parse(mailboxesCfgStr);
@@ -79,6 +79,7 @@ namespace MailFilter
             }
 
             await Task.WhenAll(mailboxTasks);
+            ConsoleUtils.WriteSuccess("All mailboxes filtered");
         }
     }
 }
