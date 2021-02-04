@@ -9,7 +9,7 @@ namespace MailFilter.Filters
             switch (wMsg.SenderAddress)
             {
                 case "weekly@megaplan.ru":
-                    Utils.MoveMessage("Мегаплан // Полезное чтение", new List<string> { "megaplan", "reading" }, wMsg);
+                    wMsg.Move("Мегаплан // Полезное чтение", new List<string> { "megaplan", "reading" });
                     break;
             }
 
@@ -17,7 +17,7 @@ namespace MailFilter.Filters
             {
                 case "Мегаплан. Полезное чтение":
                 case "Полезное чтение":
-                    Utils.MoveMessage("Мегаплан // Полезное чтение", new List<string> { "megaplan", "reading" }, wMsg);
+                    wMsg.Move("Мегаплан // Полезное чтение", new List<string> { "megaplan", "reading" });
                     break;
             }
         }

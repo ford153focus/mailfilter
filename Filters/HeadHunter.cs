@@ -24,22 +24,22 @@ namespace MailFilter.Filters
             {
                 case "вы искали похожие вакансии":
                 case "подходящие вакансии":
-                    Utils.MoveMessage("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" }, wMsg);
+                    wMsg.Move("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" });
                     return;
                 case "работодатель не готов пригласить вас на интервью":
                 case "работодатель не готов сделать вам предложение":
-                    Utils.MoveMessage("hh // rejected :(", new List<string> { "hh", "Потрачено" }, wMsg);
+                    wMsg.Move("hh // rejected :(", new List<string> { "hh", "Потрачено" });
                     return;
                 case "ответ на ваше резюме":
                 case "предложение о работе":
-                    Utils.MoveMessage("hh // Приглашение", new List<string> { "hh", "Приглашения" }, wMsg);
+                    wMsg.Move("hh // Приглашение", new List<string> { "hh", "Приглашения" });
                     return;
                 case "сообщение от работодателя":
                 case "у вас есть непрочитанные сообщения на rabota.ru!":
-                    Utils.MoveMessage("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" }, wMsg);
+                    wMsg.Move("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" });
                     return;
                 case "спасибо за ваше резюме!":
-                    Utils.MoveMessage("hh // Прочее", new List<string> { "hh", "Прочие письма" }, wMsg);
+                    wMsg.Move("hh // Прочее", new List<string> { "hh", "Прочие письма" });
                     return;
             }
 
@@ -49,7 +49,7 @@ namespace MailFilter.Filters
                 wMsg.Message.Subject.Contains("работодатели не знают о вашем резюме")
             )
             {
-                Utils.MoveMessage("hh // Bump your resume", new List<string> { "hh", "bump_your_resume" }, wMsg);
+                wMsg.Move("hh // Bump your resume", new List<string> { "hh", "bump_your_resume" });
                 return;
             }
 
@@ -58,15 +58,13 @@ namespace MailFilter.Filters
                 (wMsg.Message.Subject.Contains("вакансия") && wMsg.Message.Subject.Contains("перенесена в архив"))
             )
             {
-                wMsg.Inbox.AddFlags(wMsg.Index, MessageFlags.Deleted, true);
-                wMsg.Inbox.Expunge();
-                Utils.ErrorWrite("deleted");
+                wMsg.Delete();
                 return;
             }
 
             if (Regex.Match(wMsg.Message.Subject, @"^Вакансия .+: вам написали из .+$").Success)
             {
-                Utils.MoveMessage("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" }, wMsg);
+                wMsg.Move("hh // Новое сообщение", new List<string> { "hh", "Новое сообщение" });
                 return;
             }
 
@@ -76,7 +74,7 @@ namespace MailFilter.Filters
                 wMsg.Message.Subject.Contains("подходящие вакансии") ||
                 wMsg.Message.Subject.Contains("свежие вакансии для вас"))
             {
-                Utils.MoveMessage("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" }, wMsg);
+                wMsg.Move("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" });
                 return;
             }
 
@@ -85,16 +83,16 @@ namespace MailFilter.Filters
                 Regex.Match(wMsg.Message.Subject, @"Ваше резюме на \w*\.?hh.ru интересно работодателю").Success
             )
             {
-                Utils.MoveMessage(
+                wMsg.Move(
                     "hh // Приглашение",
-                    new List<string> { "hh", "Приглашения" }, wMsg);
+                    new List<string> { "hh", "Приглашения" });
                 return;
             }
 
             if (Regex.Match(wMsg.Message.Subject, @"Компания .+ не готова сделать Вам предложение").Success)
-                Utils.MoveMessage("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" }, wMsg);
+                wMsg.Move("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" });
 
-            Utils.MoveMessage("hh // unknown", new List<string> { "hh", "Прочие письма" }, wMsg);
+            wMsg.Move("hh // unknown", new List<string> { "hh", "Прочие письма" });
         }
     }
 }

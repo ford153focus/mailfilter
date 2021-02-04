@@ -6,17 +6,25 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
+            if (wMsg.Message.Subject.Contains("Yandex Cup"))
+            {
+                wMsg.Move("Yandex // Cup", new List<string> { "Yandex", "Cup" });
+            }
+
             switch (wMsg.SenderAddress)
             {
                 case "cloud@support.yandex.ru":
                 case "CloudPartnerHelp@yandex.ru":
-                    Utils.MoveMessage("Yandex // Cloud", new List<string> { "Yandex", "Cloud" }, wMsg);
+                    wMsg.Move("Yandex // Cloud", new List<string> { "Yandex", "Cloud" });
                     break;
                 case "events@support.yandex.ru":
-                    Utils.MoveMessage("Yandex // Events", new List<string> { "Yandex", "Events" }, wMsg);
+                    wMsg.Move("Yandex // Events", new List<string> { "Yandex", "Events" });
                     break;
                 case "noreply@eda.yandex.ru":
-                    Utils.MoveMessage("Yandex // Eda", new List<string> { "Yandex", "Eda" }, wMsg);
+                    wMsg.Move("Yandex // Eda", new List<string> { "Yandex", "Eda" });
+                    break;
+                case "intern@yandex-team.ru":
+                    wMsg.Move("Yandex // Школа", new List<string> { "Yandex", "Школа" });
                     break;
             }
 
@@ -24,43 +32,43 @@ namespace MailFilter.Filters
             {
                 case "Yandex.Webmaster":
                 case "Яндекс.Вебмастер":
-                    Utils.MoveMessage("Yandex // Webmaster", new List<string> { "Yandex", "Webmaster" }, wMsg);
+                    wMsg.Move("Yandex // Webmaster", new List<string> { "Yandex", "Webmaster" });
                     break;
                 case "Yandex.Connect":
                 case "Яндекс.Коннект":
-                    Utils.MoveMessage("Yandex // Connect", new List<string> { "Yandex", "Connect" }, wMsg);
+                    wMsg.Move("Yandex // Connect", new List<string> { "Yandex", "Connect" });
                     break;
                 case "Яндекс.Трекер":
-                    Utils.MoveMessage("Yandex // Tracker", new List<string> { "Yandex", "Tracker" }, wMsg);
+                    wMsg.Move("Yandex // Tracker", new List<string> { "Yandex", "Tracker" });
                     break;
             }
 
             switch (wMsg.Host)
             {
                 case "chef.yandex.ru":
-                    Utils.MoveMessage("Yandex // Chef", new List<string> { "Yandex", "Chef" }, wMsg);
+                    wMsg.Move("Yandex // Chef", new List<string> { "Yandex", "Chef" });
                     break;
                 case "cloud.yandex.ru":
-                    Utils.MoveMessage("Yandex // Cloud", new List<string> { "Yandex", "Cloud" }, wMsg);
+                    wMsg.Move("Yandex // Cloud", new List<string> { "Yandex", "Cloud" });
                     break;
                 case "disk.yandex.ru":
-                    Utils.MoveMessage("Yandex // Disk", new List<string> { "Yandex", "Disk" }, wMsg);
+                    wMsg.Move("Yandex // Disk", new List<string> { "Yandex", "Disk" });
                     break;
                 case "kinopoisk.ru":
-                    Utils.MoveMessage("Yandex // КиноПоиск", new List<string> { "Yandex", "КиноПоиск" }, wMsg);
+                    wMsg.Move("Yandex // КиноПоиск", new List<string> { "Yandex", "КиноПоиск" });
                     break;
                 case "maps.yandex.ru":
-                    Utils.MoveMessage("Yandex // Maps", new List<string> { "Yandex", "Maps" }, wMsg);
+                    wMsg.Move("Yandex // Maps", new List<string> { "Yandex", "Maps" });
                     break;
                 case "market.yandex.ru":
-                    Utils.MoveMessage("Yandex // Market", new List<string> { "Yandex", "Market" }, wMsg);
+                    wMsg.Move("Yandex // Market", new List<string> { "Yandex", "Market" });
                     break;
                 case "money.yandex.ru":
                 case "yamoney.ru":
-                    Utils.MoveMessage("Yandex // Money", new List<string> { "Yandex", "Money" }, wMsg);
+                    wMsg.Move("Yandex // Money", new List<string> { "Yandex", "Money" });
                     break;
                 case "realty.yandex.ru":
-                    Utils.MoveMessage("Yandex // Realty", new List<string> { "Yandex", "Realty" }, wMsg);
+                    wMsg.Move("Yandex // Realty", new List<string> { "Yandex", "Realty" });
                     break;
             }
         }

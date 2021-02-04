@@ -10,7 +10,7 @@ namespace MailFilter.Filters
 
             if (wMsg.Message.Subject.StartsWith("Access to the ") && wMsg.Message.Subject.EndsWith(" project was granted"))
             {
-                Utils.MoveMessage("Gitlab // Access granted", new List<string> { "Gitlab", "Access granted" }, wMsg);
+                wMsg.Move("Gitlab // Access granted", new List<string> { "Gitlab", "Access granted" });
                 return;
             }
         }

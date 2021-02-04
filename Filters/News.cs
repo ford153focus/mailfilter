@@ -9,43 +9,61 @@ namespace MailFilter.Filters
             switch (wMsg.Host)
             {
                 case "amd-member.com":
-                    Utils.MoveMessage("News // AMD", new List<string> { "News", "AMD" }, wMsg);
+                    wMsg.Move("News // AMD", new List<string> { "News", "AMD" });
                     return;
                 case "digitalocean.com":
                 case "info.digitalocean.com":
                 case "news.digitalocean.com":
-                    Utils.MoveMessage("News // DigitalOcean", new List<string> { "News", "DigitalOcean" }, wMsg);
+                    wMsg.Move("News // DigitalOcean", new List<string> { "News", "DigitalOcean" });
                     return;
                 case "f1fanvoice.com":
-                    Utils.MoveMessage("News // Formula1", new List<string> { "News", "Formula1" }, wMsg);
+                    wMsg.Move("News // Formula1", new List<string> { "News", "Formula1" });
                     return;
                 case "microsoft.com":
                 case "e-mail.microsoft.com":
                 case "email.microsoft.com":
-                    Utils.MoveMessage("News // Microsoft", new List<string> { "News", "Microsoft" }, wMsg);
+                    wMsg.Move("News // Microsoft", new List<string> { "News", "Microsoft" });
                     return;
                     case "my.motogp.com":
-                    Utils.MoveMessage("News // Moto GP", new List<string> { "News", "Moto GP" }, wMsg);
+                    wMsg.Move("News // Moto GP", new List<string> { "News", "Moto GP" });
                     return;
                 case "mozilla.org":
                 case "e.mozilla.org":
-                    Utils.MoveMessage("News // Mozilla", new List<string> { "News", "Mozilla" }, wMsg);
+                    wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
+                    return;
+                case "tjournal.ru":
+                    wMsg.Move("News // Tj", new List<string> { "News", "Tj" });
+                    return;
+                case "announcements.soundcloud.com":
+                    wMsg.Move("News // SoundCloud", new List<string> { "News", "SoundCloud" });
+                    return;
+                case "qt.io":
+                    wMsg.Move("News // Qt", new List<string> { "News", "Qt" });
+                    return;
+                case "vc.ru":
+                    wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
+                    return;
+            }
+
+            Politics(wMsg);
+        }
+
+        public static void Politics(WrappedMessage wMsg)
+        {
+            if (wMsg.Host.EndsWith("change.org"))
+            {
+                wMsg.Move("News // pol // Change.org", new List<string> { "News", "pol", "Change.org" });
+                return;
+            }
+
+            switch (wMsg.Host)
+            {
+                case "gorod.io":
+                    wMsg.Move("News // pol // Горожанин", new List<string> { "News", "pol", "Горожанин" });
                     return;
                 case "5steps.vote":
                 case "navalny.com":
-                    Utils.MoveMessage("20!8", new List<string> { "News", "n2018" }, wMsg);
-                    return;
-                case "tjournal.ru":
-                    Utils.MoveMessage("News // Tj", new List<string> { "News", "Tj" }, wMsg);
-                    return;
-                case "announcements.soundcloud.com":
-                    Utils.MoveMessage("News // SoundCloud", new List<string> { "News", "SoundCloud" }, wMsg);
-                    return;
-                case "qt.io":
-                    Utils.MoveMessage("News // Qt", new List<string> { "News", "Qt" }, wMsg);
-                    return;
-                case "vc.ru":
-                    Utils.MoveMessage("News // vc.ru", new List<string> { "News", "vc.ru" }, wMsg);
+                    wMsg.Move("20!8", new List<string> { "News", "pol", "n2018" });
                     return;
             }
         }

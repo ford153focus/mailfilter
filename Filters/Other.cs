@@ -11,20 +11,26 @@ namespace MailFilter.Filters
             Cian(wMsg);
             RussianPost(wMsg);
 
-            if (wMsg.Host == "beget.ru") { Utils.MoveMessage("BeGet", new List<string> { "beget" }, wMsg); }
+            if (wMsg.Host == "beget.com" ||
+                wMsg.Host == "beget.ltd" ||
+                wMsg.Host == "beget.ru")
+            {
+                wMsg.Move("BeGet", new List<string> { "beget" });
+            }
         }
 
         public static void AutoRu(WrappedMessage wMsg)
         {
-            if (wMsg.SenderAddress != "noreply@auto.ru") return;
+            if (wMsg.SenderAddress != "noreply@auto.ru" &&
+                wMsg.SenderAddress != "mag@auto.ru") return;
 
             if (!string.IsNullOrEmpty(wMsg.Message.Subject) && wMsg.Message.Subject.Trim().StartsWith("Новые объявления: "))
             {
-                Utils.MoveMessage("stores // auto.ru / new ads", new List<string> { "Stores", "auto.ru", "new ads" }, wMsg);
+                wMsg.Move("stores // auto.ru / new ads", new List<string> { "stores", "auto.ru", "new ads" });
             }
             else
             {
-                Utils.MoveMessage("News // auto.ru", new List<string> { "News", "auto.ru" }, wMsg);
+                wMsg.Move("News // auto.ru", new List<string> { "News", "auto.ru" });
             }
         }
 
@@ -32,7 +38,7 @@ namespace MailFilter.Filters
         {
             if (wMsg.SenderAddress == "bee4you@beeline.ru")
             {
-                Utils.MoveMessage("Beeline", new List<string> { "beeline" }, wMsg);
+                wMsg.Move("Beeline", new List<string> { "beeline" });
                 return;
             }
         }
@@ -44,11 +50,11 @@ namespace MailFilter.Filters
             if (wMsg.Message.Subject == "Индивидуальная подборка объявлений для вас" ||
                 wMsg.Message.Subject.StartsWith("Свежие предложения по вашей подписке"))
             {
-                Utils.MoveMessage("stores // cian.ru", new List<string> { "stores", "cian.ru" }, wMsg);
+                wMsg.Move("stores // cian.ru", new List<string> { "stores", "cian.ru" });
             }
             else
             {
-                Utils.MoveMessage("News // cian.ru", new List<string> { "News", "cian.ru" }, wMsg);
+                wMsg.Move("News // cian.ru", new List<string> { "News", "cian.ru" });
             }
         }
 
@@ -56,13 +62,13 @@ namespace MailFilter.Filters
         {
             if (wMsg.SenderAddress == "notification@russianpost.ru")
             {
-                Utils.MoveMessage("RussianPost", new List<string> { "Почта России" }, wMsg);
+                wMsg.Move("RussianPost", new List<string> { "Почта России" });
                 return;
             }
 
             if (wMsg.SenderAddress == "news@pochta.ru")
             {
-                Utils.MoveMessage("RussianPost // News", new List<string> { "Почта России", "Новости" }, wMsg);
+                wMsg.Move("RussianPost // News", new List<string> { "Почта России", "Новости" });
                 return;
             }
         }

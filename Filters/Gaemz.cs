@@ -16,99 +16,101 @@ namespace MailFilter.Filters
                 case "gaijin.net":
                 case "mobafire.com":
                 case "playkey.net":
-                    Utils.MoveMessage("gaemz // Other", new List<string> { "gaemz", "Other" }, wMsg);
+                    wMsg.Move("gaemz // Other", new List<string> { "gaemz", "Other" });
                     return;
                 case "4game.com":
-                    Utils.MoveMessage("gaemz // 4game", new List<string> { "gaemz", "4game" }, wMsg);
+                    wMsg.Move("gaemz // 4game", new List<string> { "gaemz", "4game" });
                     return;
                  case "ru.playblackdesert.com":
-                    Utils.MoveMessage("gaemz // bdesert", new List<string> { "gaemz", "black_desert" }, wMsg);
+                 case "pearlabyss.com":
+                    wMsg.Move("gaemz // bdesert", new List<string> { "gaemz", "black_desert" });
                     return;
                 case "blizzard.com":
                 case "em.blizzard.com":
-                    Utils.MoveMessage("gaemz // Blizzard", new List<string> { "gaemz", "Blizzard" }, wMsg);
+                    wMsg.Move("gaemz // Blizzard", new List<string> { "gaemz", "Blizzard" });
                     return;
                 case "capcom.com":
-                    Utils.MoveMessage("gaemz // Capcom", new List<string> { "gaemz", "Capcom" }, wMsg);
+                    wMsg.Move("gaemz // Capcom", new List<string> { "gaemz", "Capcom" });
                     return;
                 case "discordapp.com":
-                    Utils.MoveMessage("gaemz // Discord", new List<string> { "gaemz", "Discord" }, wMsg);
+                    wMsg.Move("gaemz // Discord", new List<string> { "gaemz", "Discord" });
                     return;
                 case "daybreakgames.com":
                 case "email.daybreakgames.com":
-                    Utils.MoveMessage("gaemz // H1Z1", new List<string> { "gaemz", "H1Z1" }, wMsg);
+                    wMsg.Move("gaemz // H1Z1", new List<string> { "gaemz", "H1Z1" });
                     return;
                 case "ea.com":
                 case "e.ea.com":
-                    Utils.MoveMessage("gaemz // EA", new List<string> { "gaemz", "EA" }, wMsg);
+                    wMsg.Move("gaemz // EA", new List<string> { "gaemz", "EA" });
                     return;
                 case "epicgames.com":
                 case "accts.epicgames.com":
-                    Utils.MoveMessage("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" }, wMsg);
+                    wMsg.Move("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" });
                     return;
-                case "gog.com":
-                case "email.gog.com":
-                case "email2.gog.com":
-                    Utils.MoveMessage("gaemz // GOG.com", new List<string> { "gaemz", "GOG.com" }, wMsg);
+                case "eslgaming.com":
+                    wMsg.Move("gaemz // ESL", new List<string> { "gaemz", "ESL" });
                     return;
                 case "goodgame.ru":
-                    Utils.MoveMessage("gaemz // GoodGame", new List<string> { "gaemz", "GoodGame" }, wMsg);
+                    wMsg.Move("gaemz // GoodGame", new List<string> { "gaemz", "GoodGame" });
                     return;
                 case "hirezstudios.com":
-                    Utils.MoveMessage("gaemz // Hi-Rez Studios", new List<string> { "gaemz", "Hi-Rez Studios" }, wMsg);
-                    return;
-                case "humblebundle.com":
-                case "mailer.humblebundle.com":
-                case "mg.humblebundle.com":
-                    Utils.MoveMessage("gaemz // Humble Bundle", new List<string> { "gaemz", "Humble Bundle" }, wMsg);
+                    wMsg.Move("gaemz // Hi-Rez Studios", new List<string> { "gaemz", "Hi-Rez Studios" });
                     return;
                 case "perfectworld.com":
-                    Utils.MoveMessage("gaemz // Perfect World", new List<string> { "gaemz", "Perfect World" }, wMsg);
+                    wMsg.Move("gaemz // Perfect World", new List<string> { "gaemz", "Perfect World" });
                     return;
                 case "ppy.sh":
-                    Utils.MoveMessage("gaemz // OSU!", new List<string> { "gaemz", "osu" }, wMsg);
+                    wMsg.Move("gaemz // OSU!", new List<string> { "gaemz", "osu" });
                     return;
                 case "robotcache.com":
-                    Utils.MoveMessage("gaemz // Robot Cache", new List<string> { "gaemz", "Robot Cache" }, wMsg);
+                    wMsg.Move("gaemz // Robot Cache", new List<string> { "gaemz", "Robot Cache" });
                     return;
                 case "rockstargames.com":
-                    Utils.MoveMessage("gaemz // Rockstar Games", new List<string> { "gaemz", "Rockstar Games" }, wMsg);
+                    wMsg.Move("gaemz // Rockstar Games", new List<string> { "gaemz", "Rockstar Games" });
                     return;
                 case "stopgame.ru":
-                    Utils.MoveMessage("gaemz // StopGame.ru", new List<string> { "gaemz", "StopGame.ru" }, wMsg);
-                    return;
-                case "twitch.tv":
-                case "sfmarketing.twitch.tv":
-                    Utils.MoveMessage("gaemz // Twitch", new List<string> { "gaemz", "Twitch" }, wMsg);
+                    wMsg.Move("gaemz // StopGame.ru", new List<string> { "gaemz", "StopGame.ru" });
                     return;
                 case "unity3d.com":
-                    Utils.MoveMessage("gaemz // Unity 3D Engine", new List<string> { "gaemz", "Unity 3D Engine" }, wMsg);
-                    return;
-                case "warframe.com":
-                    Utils.MoveMessage("gaemz // Warframe", new List<string> { "gaemz", "Warframe" }, wMsg);
+                    wMsg.Move("gaemz // Unity 3D Engine", new List<string> { "gaemz", "Unity 3D Engine" });
                     return;
                 case "wasd.tv":
-                    Utils.MoveMessage("gaemz // WASD.TV", new List<string> { "gaemz", "WASD.TV" }, wMsg);
+                    wMsg.Move("gaemz // WASD.TV", new List<string> { "gaemz", "WASD.TV" });
                     return;
             }
 
-            if (wMsg.Host.Contains("riotgames"))
+            if (wMsg.Host.EndsWith("gog.com"))
             {
-                Utils.MoveMessage("gaemz // LoL", new List<string> { "gaemz", "LoL" }, wMsg);
-                return;
+                wMsg.Move("gaemz // GOG.com", new List<string> { "gaemz", "GOG.com" });
+            }
+            else if (wMsg.Host.EndsWith("humblebundle.com"))
+            {
+                wMsg.Move("gaemz // Humble Bundle", new List<string> { "gaemz", "Humble Bundle" });
+            }
+            else if (wMsg.Host.Contains("riotgames"))
+            {
+                wMsg.Move("gaemz // LoL", new List<string> { "gaemz", "LoL" });
+            }
+            else if (wMsg.Host.EndsWith("twitch.tv"))
+            {
+                wMsg.Move("gaemz // Twitch", new List<string> { "gaemz", "Twitch" });
             }
             else if (wMsg.Host.Contains("ubi"))
             {
-                Utils.MoveMessage("gaemz // Ubisoft", new List<string> { "gaemz", "Ubisoft" }, wMsg);
-                return;
+                wMsg.Move("gaemz // Ubisoft", new List<string> { "gaemz", "Ubisoft" });
             }
-            else if (wMsg.Host.Contains("warframe.com"))
+            else if (wMsg.Host.EndsWith("warframe.com"))
             {
-                Utils.MoveMessage("gaemz // Warframe", new List<string> { "gaemz", "Warframe" }, wMsg);
-                return;
+                wMsg.Move("gaemz // Warframe", new List<string> { "gaemz", "Warframe" });
             }
-
-            Steam(wMsg);
+            else if (wMsg.Host.EndsWith("mihoyo.com"))
+            {
+                wMsg.Move("gaemz // Genshin Impact", new List<string> { "gaemz", "Genshin Impact" });
+            }
+            else
+            {
+                Steam(wMsg);
+            }
         }
 
         public static void Steam(WrappedMessage wMsg)
@@ -118,7 +120,7 @@ namespace MailFilter.Filters
             // Community Market Purchase
             if (wMsg.Message.Subject == "Thank you for your Community Market purchase")
             {
-                Utils.MoveMessage("gaemz // Steam // Community Market Purchase", new List<string> { "gaemz", "Steam", "Community Market Purchase" }, wMsg);
+                wMsg.Move("gaemz // Steam // Community Market Purchase", new List<string> { "gaemz", "Steam", "Community Market Purchase" });
                 return;
             }
 
@@ -126,7 +128,7 @@ namespace MailFilter.Filters
             if (wMsg.Message.Subject.Contains("You've received a gift copy of the game ") ||
                 wMsg.Message.Subject.Contains("Вы получили в подарок копию игры "))
             {
-                Utils.MoveMessage("gaemz // Steam // Gift received", new List<string> { "gaemz", "Steam", "Gift received" }, wMsg);
+                wMsg.Move("gaemz // Steam // Gift received", new List<string> { "gaemz", "Steam", "Gift received" });
                 return;
             }
 
@@ -134,14 +136,14 @@ namespace MailFilter.Filters
             if (wMsg.Message.Subject == "You have sold an item on the Community Market" ||
                 wMsg.Message.Subject == "Вы продали предмет на Торговой площадке")
             {
-                Utils.MoveMessage("gaemz // Steam // Item is sold on the Community Market", new List<string> { "gaemz", "Steam", "Item is sold on the Community Market" }, wMsg);
+                wMsg.Move("gaemz // Steam // Item is sold on the Community Market", new List<string> { "gaemz", "Steam", "Item is sold on the Community Market" });
                 return;
             }
 
             // Items Delivered
             if (wMsg.Message.Subject == "Steam Trade Items Delivered")
             {
-                Utils.MoveMessage("gaemz // Steam // Trade Items Delivered", new List<string> { "gaemz", "Steam", "Trade Items Delivered" }, wMsg);
+                wMsg.Move("gaemz // Steam // Trade Items Delivered", new List<string> { "gaemz", "Steam", "Trade Items Delivered" });
                 return;
             }
 
@@ -150,21 +152,21 @@ namespace MailFilter.Filters
                 wMsg.Message.Subject.Contains(" is now available in Early Access on Steam!") ||
                 wMsg.Message.Subject.Contains(" уже доступна в Steam!"))
             {
-                Utils.MoveMessage("gaemz // Steam // Released", new List<string> { "gaemz", "Steam", "Released" }, wMsg);
+                wMsg.Move("gaemz // Steam // Released", new List<string> { "gaemz", "Steam", "Released" });
                 return;
             }
 
             // Support
             if (wMsg.SenderName == "Steam Support")
             {
-                Utils.MoveMessage("gaemz // Steam // Support", new List<string> { "gaemz", "Steam", "Support" }, wMsg);
+                wMsg.Move("gaemz // Steam // Support", new List<string> { "gaemz", "Steam", "Support" });
                 return;
             }
 
             // Trade Confirmation
             if (wMsg.Message.Subject == "Steam Trade Confirmation")
             {
-                Utils.MoveMessage("gaemz // Steam // Trade Confirmation", new List<string> { "gaemz", "Steam", "Trade Confirmation" }, wMsg);
+                wMsg.Move("gaemz // Steam // Trade Confirmation", new List<string> { "gaemz", "Steam", "Trade Confirmation" });
                 return;
             }
 
@@ -172,11 +174,11 @@ namespace MailFilter.Filters
             if (Regex.Match(wMsg.Message.Subject, @"(on|from) your Steam wishlist (is|are) (now )?on sale!$").Success ||
                 Regex.Match(wMsg.Message.Subject, @"из вашего списка желаемого (в Steam\s+)?прода(е|ё|ю)тся со скидкой!$").Success)
             {
-                Utils.MoveMessage("gaemz // Steam // Wishlist item is on sale", new List<string> { "gaemz", "Steam", "Wishlist item is on sale" }, wMsg);
+                wMsg.Move("gaemz // Steam // Wishlist item is on sale", new List<string> { "gaemz", "Steam", "Wishlist item is on sale" });
                 return;
             }
 
-            Utils.MoveMessage("gaemz // Steam // Other", new List<string> { "gaemz", "Steam", "other" }, wMsg);
+            wMsg.Move("gaemz // Steam // Other", new List<string> { "gaemz", "Steam", "other" });
         }
     }
 }

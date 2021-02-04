@@ -6,13 +6,11 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            List<string> gosuMailboxes = new List<string> {
-                "no-reply@gosuslugi.ru",
-                "no_reply@fcod.nalog.ru"
-            };
-
-            if (gosuMailboxes.Contains(wMsg.SenderAddress))
-                Utils.MoveMessage("GosUslugi", new List<string> { "ГосУслуги" }, wMsg);
+            if (wMsg.SenderAddress.EndsWith("gosuslugi.ru") ||
+                wMsg.SenderAddress.EndsWith("service-nalog.ru"))
+            {
+                wMsg.Move("GosUslugi", new List<string> { "ГосУслуги" });
+            }
         }
     }
 }

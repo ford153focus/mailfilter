@@ -8,17 +8,23 @@ namespace MailFilter.Filters
         {
             if (wMsg.Host.Contains("bspb.ru"))
             {
-                Utils.MoveMessage("Banks // Bank SPB", new List<string> { "Banks", "Bank SPB" }, wMsg);
+                wMsg.Move("Banks // Bank SPB", new List<string> { "Banks", "Bank SPB" });
+            }
+            else if (wMsg.Host.Contains("raiffeisen.ru"))
+            {
+                wMsg.Move("Banks // Райффайзенбанк", new List<string> { "Banks", "Райффайзенбанк" });
             }
 
-            if (wMsg.Host.Contains("raiffeisen.ru"))
+            else if (wMsg.Host.Contains("tinkoff.ru"))
             {
-                Utils.MoveMessage("Banks // Райффайзенбанк", new List<string> { "Banks", "Райффайзенбанк" }, wMsg);
-            }
-
-            if (wMsg.Host.Contains("tinkoff.ru"))
-            {
-                Utils.MoveMessage("Banks // Tinkoff", new List<string> { "Banks", "Tinkoff" }, wMsg);
+                if (wMsg.Message.Subject.Contains("Выписка по дебетовой карте"))
+                {
+                    wMsg.Move("Banks // Tinkoff // Выписка", new List<string> { "Banks", "Tinkoff", "Выписка" });
+                }
+                else
+                {
+                    wMsg.Move("Banks // Tinkoff", new List<string> { "Banks", "Tinkoff" });
+                }
             }
         }
     }

@@ -9,33 +9,33 @@ namespace MailFilter.Filters
             switch (wMsg.Host)
             {
                 case "facebookmail.com":
-                    Utils.MoveMessage("social // facebook", new List<string> { "social", "facebook" }, wMsg);
+                    wMsg.Move("social // facebook", new List<string> { "social", "facebook" });
                     return;
                 case "mail.instagram.com":
                 case "instagram.com":
-                    Utils.MoveMessage("social // instagram", new List<string> { "social", "instagram" }, wMsg);
+                    wMsg.Move("social // instagram", new List<string> { "social", "instagram" });
                     return;
                 case "linkedin.com":
-                    Utils.MoveMessage("social // LinkedIn", new List<string> { "social", "LinkedIn" }, wMsg);
+                    wMsg.Move("social // LinkedIn", new List<string> { "social", "LinkedIn" });
                     return;
                 case "pixiv.net":
-                    Utils.MoveMessage("social // pixiv", new List<string> { "social", "pixiv" }, wMsg);
+                    wMsg.Move("social // pixiv", new List<string> { "social", "pixiv" });
                     return;
                 case "twitter.com":
-                    Utils.MoveMessage("social // twitter", new List<string> { "social", "twitter" }, wMsg);
+                    wMsg.Move("social // twitter", new List<string> { "social", "twitter" });
                     return;
                 case "vk.com":
                 case "notify.vk.com":
-                    Utils.MoveMessage("social // vk", new List<string> { "social", "vk" }, wMsg);
+                    wMsg.Move("social // vk", new List<string> { "social", "vk" });
                     return;
                 case "youtube.com":
-                    Utils.MoveMessage("social // youtube", new List<string> { "social", "youtube" }, wMsg);
+                    wMsg.Move("social // youtube", new List<string> { "social", "youtube" });
                     return;
             }
 
             if (wMsg.Host.Contains("pinterest.com"))
             {
-                Utils.MoveMessage("social // pinterest", new List<string> { "social", "pinterest" }, wMsg);
+                wMsg.Move("social // pinterest", new List<string> { "social", "pinterest" });
                 return;
             }
         }

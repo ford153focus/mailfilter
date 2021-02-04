@@ -8,13 +8,13 @@ namespace MailFilter.Filters
         {
             if (wMsg.Host.Contains("atlassian.net"))
             {
-                Utils.MoveMessage("Jira", new List<string> { "Jira" }, wMsg);
+                wMsg.Move("Jira", new List<string> { "Jira" });
                 return;
             }
 
             if (wMsg.Host == "bitbucket.org")
             {
-                Utils.MoveMessage("Bitbucket", new List<string> { "Bitbucket" }, wMsg);
+                wMsg.Move("Bitbucket", new List<string> { "Bitbucket" });
             }
         }
     }
