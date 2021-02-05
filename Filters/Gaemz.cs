@@ -56,6 +56,9 @@ namespace MailFilter.Filters
                 case "hirezstudios.com":
                     wMsg.Move("gaemz // Hi-Rez Studios", new List<string> { "gaemz", "Hi-Rez Studios" });
                     return;
+                case "klavogonki.ru":
+                    wMsg.Move("gaemz // Клавогонки", new List<string> { "gaemz", "Клавогонки" });
+                    return;
                 case "perfectworld.com":
                     wMsg.Move("gaemz // Perfect World", new List<string> { "gaemz", "Perfect World" });
                     return;
