@@ -32,7 +32,7 @@ namespace MailFilter.Filters
                     return;
                 case "ответ на ваше резюме":
                 case "предложение о работе":
-                    wMsg.Move("hh // Приглашение", new List<string> { "hh", "Приглашения" });
+                    wMsg.Move("hh // invitation", new List<string> { "hh", "invitation" });
                     return;
                 case "сообщение от работодателя":
                 case "у вас есть непрочитанные сообщения на rabota.ru!":
@@ -83,9 +83,7 @@ namespace MailFilter.Filters
                 Regex.Match(wMsg.Message.Subject, @"Ваше резюме на \w*\.?hh.ru интересно работодателю").Success
             )
             {
-                wMsg.Move(
-                    "hh // Приглашение",
-                    new List<string> { "hh", "Приглашения" });
+                wMsg.Move("hh // invitation", new List<string> { "hh", "invitation" });
                 return;
             }
 

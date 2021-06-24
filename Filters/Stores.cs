@@ -89,9 +89,15 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.Host.Contains("blablacar.com"))
+            if (wMsg.Host.EndsWith("blablacar.com"))
             {
                 wMsg.Move("store // BlaBlaCar", new List<string> { "stores", "BlaBlaCar" });
+                return;
+            }
+
+            if (wMsg.Host.EndsWith("ikea.ru"))
+            {
+                wMsg.Move("store // IKEA", new List<string> { "stores", "IKEA" });
                 return;
             }
 
@@ -111,11 +117,17 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.Message.Subject.Contains("come grab the items you liked") ||
-                wMsg.Message.Subject.Contains("Remember that item you wanted?") ||
-                wMsg.SenderAddress.Equals("affiliate@notice.aliexpress.com"))
+            if (!string.IsNullOrEmpty(wMsg.Message.Subject))
             {
-                wMsg.Delete();
+                if (wMsg.Message.Subject.ToLower().Contains("items you liked") ||
+                    wMsg.Message.Subject.ToLower().Contains("item you wanted") ||
+                    wMsg.Message.Subject.ToLower().Contains("users are interested") ||
+                    wMsg.Message.Subject.ToLower().Contains("we miss you") ||
+                    wMsg.Message.Subject.ToLower().Contains("being missed") ||
+                    wMsg.SenderAddress.Equals("affiliate@notice.aliexpress.com"))
+                {
+                    wMsg.Delete();
+                }
             }
         }
 

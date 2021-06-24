@@ -31,6 +31,9 @@ namespace MailFilter.Filters
                 case "e.mozilla.org":
                     wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
                     return;
+                case "update.strava.com":
+                    wMsg.Move("News // Strava", new List<string> { "News", "Strava" });
+                    return;
                 case "tjournal.ru":
                     wMsg.Move("News // Tj", new List<string> { "News", "Tj" });
                     return;
@@ -63,6 +66,7 @@ namespace MailFilter.Filters
                     return;
                 case "5steps.vote":
                 case "navalny.com":
+                case "rus.vote":
                     wMsg.Move("20!8", new List<string> { "News", "pol", "n2018" });
                     return;
             }

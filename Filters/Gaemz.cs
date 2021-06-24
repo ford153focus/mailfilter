@@ -43,10 +43,6 @@ namespace MailFilter.Filters
                 case "e.ea.com":
                     wMsg.Move("gaemz // EA", new List<string> { "gaemz", "EA" });
                     return;
-                case "epicgames.com":
-                case "accts.epicgames.com":
-                    wMsg.Move("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" });
-                    return;
                 case "eslgaming.com":
                     wMsg.Move("gaemz // ESL", new List<string> { "gaemz", "ESL" });
                     return;
@@ -82,7 +78,11 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.Host.EndsWith("gog.com"))
+            if (wMsg.Host.EndsWith("epicgames.com"))
+            {
+                wMsg.Move("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" });
+            }
+            else if (wMsg.Host.EndsWith("gog.com"))
             {
                 wMsg.Move("gaemz // GOG.com", new List<string> { "gaemz", "GOG.com" });
             }

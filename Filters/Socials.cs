@@ -33,10 +33,25 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.Host.Contains("pinterest.com"))
+            if (wMsg.Host.EndsWith("github.com"))
+            {
+                wMsg.Move("social // GitHub", new List<string> { "social", "GitHub" });
+            }
+            else if (wMsg.Host.EndsWith("pinterest.com"))
             {
                 wMsg.Move("social // pinterest", new List<string> { "social", "pinterest" });
-                return;
+            }
+            else if (wMsg.Host.EndsWith("joyreactor.cc"))
+            {
+                wMsg.Move("social // Joyreactor", new List<string> { "social", "Joyreactor" });
+            }
+            else if (wMsg.Host.EndsWith("habr.com") && wMsg.Message.Subject.StartsWith("Ответ на ваш комментарий к публикации"))
+            {
+                wMsg.Move("social // Habr", new List<string> { "social", "Habr" });
+            }
+            else if (wMsg.Host.EndsWith("redditmail.com"))
+            {
+                wMsg.Move("social // Reddit", new List<string> { "social", "Reddit" });
             }
         }
     }
