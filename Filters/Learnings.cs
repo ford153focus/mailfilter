@@ -6,22 +6,22 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            if (wMsg.Host.Contains("codewars.com"))
+            if (wMsg.Host.EndsWith("codewars.com"))
                 wMsg.Move("Codewars", new List<string> { "learning", "Codewars" });
 
-            else if (wMsg.Host.Contains("coursera.org"))
+            else if (wMsg.Host.EndsWith("coursera.org"))
                 wMsg.Move("Coursera", new List<string> { "learning", "Coursera" });
 
-            else if (wMsg.Host.Contains("duolingo.com"))
+            else if (wMsg.Host.EndsWith("duolingo.com"))
                 wMsg.Move("Duolingo", new List<string> { "learning", "Duolingo" });
 
-            else if (wMsg.SenderAddress == "events_ru@epam.com")
+            else if (wMsg.Host.EndsWith("epam.com"))
                 wMsg.Move("learning // EPAM", new List<string> { "learning", "EPAM" });
 
-            else if (wMsg.Host.Contains("innopolis.university") || wMsg.SenderAddress == "info@itcenter.expert")
+            else if (wMsg.Host.EndsWith("innopolis.university") || wMsg.SenderAddress == "info@itcenter.expert")
                 wMsg.Move("Innopolis", new List<string> { "learning", "Innopolis" });
 
-            else if (wMsg.Host.Contains("leadersofdigital.ru"))
+            else if (wMsg.Host.EndsWith("leadersofdigital.ru"))
                 wMsg.Move("Цифровой Прорыв", new List<string> { "learning", "Цифровой Прорыв" });
 
             else if (wMsg.SenderAddress == "emily.turner@nginx.com" || wMsg.SenderAddress == "e.turner@f5.com")

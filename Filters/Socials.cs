@@ -37,10 +37,6 @@ namespace MailFilter.Filters
             {
                 wMsg.Move("social // GitHub", new List<string> { "social", "GitHub" });
             }
-            else if (wMsg.Host.EndsWith("pinterest.com"))
-            {
-                wMsg.Move("social // pinterest", new List<string> { "social", "pinterest" });
-            }
             else if (wMsg.Host.EndsWith("joyreactor.cc"))
             {
                 wMsg.Move("social // Joyreactor", new List<string> { "social", "Joyreactor" });
@@ -49,9 +45,17 @@ namespace MailFilter.Filters
             {
                 wMsg.Move("social // Habr", new List<string> { "social", "Habr" });
             }
+            else if (wMsg.Host.EndsWith("pinterest.com"))
+            {
+                wMsg.Move("social // pinterest", new List<string> { "social", "pinterest" });
+            }
             else if (wMsg.Host.EndsWith("redditmail.com"))
             {
                 wMsg.Move("social // Reddit", new List<string> { "social", "Reddit" });
+            }
+            else if (wMsg.Host.EndsWith("stackoverflow.email"))
+            {
+                wMsg.Move("social // Stack Overflow", new List<string> { "social", "Stack Overflow" });
             }
         }
     }

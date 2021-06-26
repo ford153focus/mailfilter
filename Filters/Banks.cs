@@ -6,16 +6,16 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            if (wMsg.Host.Contains("bspb.ru"))
+            if (wMsg.Host.EndsWith("bspb.ru"))
             {
                 wMsg.Move("Banks // Bank SPB", new List<string> { "Banks", "Bank SPB" });
             }
-            else if (wMsg.Host.Contains("raiffeisen.ru"))
+            else if (wMsg.Host.EndsWith("raiffeisen.ru"))
             {
                 wMsg.Move("Banks // Райффайзенбанк", new List<string> { "Banks", "Райффайзенбанк" });
             }
 
-            else if (wMsg.Host.Contains("tinkoff.ru"))
+            else if (wMsg.Host.EndsWith("tinkoff.ru"))
             {
                 if (wMsg.Message.Subject.Contains("Выписка по дебетовой карте"))
                 {
