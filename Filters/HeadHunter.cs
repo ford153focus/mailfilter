@@ -20,6 +20,8 @@ namespace MailFilter.Filters
 
             if (!headHunterMailboxes.Contains(wMsg.SenderAddress)) return;
 
+            if (wMsg.Message.Subject.ToLower().Equals("код подтверждения")) return;
+
             switch (wMsg.Message.Subject.ToLower())
             {
                 case "вы искали похожие вакансии":
