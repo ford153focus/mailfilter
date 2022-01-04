@@ -80,11 +80,31 @@ namespace MailFilter.Filters
 
             if (wMsg.Host.EndsWith("epicgames.com"))
             {
-                wMsg.Move("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" });
+                if (wMsg.Message.Subject.StartsWith("Your Epic Games Receipt"))
+                {
+                    wMsg.Move("gaemz // Epic Games // Receipt", new List<string> { "gaemz", "Epic Games", "Receipt" });
+                }
+                else
+                {
+                    wMsg.Move("gaemz // Epic Games", new List<string> { "gaemz", "Epic Games" });
+                }
             }
             else if (wMsg.Host.EndsWith("gog.com"))
             {
-                wMsg.Move("gaemz // GOG.com", new List<string> { "gaemz", "GOG.com" });
+                switch (wMsg.Message.Subject)
+                {
+                    case "Items on your wishlist are now discounted!":
+                    case "На игры из вашего вишлиста сейчас действуют скидки":
+                        wMsg.Move("gaemz // GOG.com // discount", new List<string> { "gaemz", "GOG.com", "discount" });
+                        break;
+                    case "Free items added to your GOG.com library.":
+                    case "Бесплатные продукты были добавлены в вашу библиотеку GOG.com.":
+                        wMsg.Move("gaemz // GOG.com // free game added", new List<string> { "gaemz", "GOG.com", "free game added" });
+                        break;
+                    default:
+                        wMsg.Move("gaemz // GOG.com", new List<string> { "gaemz", "GOG.com" });
+                        break;
+                }
             }
             else if (wMsg.Host.EndsWith("humblebundle.com"))
             {

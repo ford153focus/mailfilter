@@ -8,13 +8,6 @@ namespace MailFilter.Filters
         {
             if (!wMsg.Host.EndsWith("mail.ru")) return;
 
-            switch (wMsg.SenderAddress)
-            {
-                case "intern@yandex-team.ru":
-                    wMsg.Move("Yandex // Школа", new List<string> { "Yandex", "Школа" });
-                    break;
-            }
-
             switch (wMsg.SenderName)
             {
                 case "Certification":
@@ -28,13 +21,6 @@ namespace MailFilter.Filters
                     break;
                 case "Почта Mail.ru":
                     wMsg.Move("Mail.ru // Почта", new List<string> { "Mail.ru", "Почта" });
-                    break;
-            }
-
-            switch (wMsg.Host)
-            {
-                case "chef.yandex.ru":
-                    wMsg.Move("Yandex // Chef", new List<string> { "Yandex", "Chef" });
                     break;
             }
         }

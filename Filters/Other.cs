@@ -6,7 +6,6 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            AutoRu(wMsg);
             Beeline(wMsg);
             Cian(wMsg);
             RussianPost(wMsg);
@@ -16,21 +15,6 @@ namespace MailFilter.Filters
                 wMsg.Host == "beget.ru")
             {
                 wMsg.Move("BeGet", new List<string> { "beget" });
-            }
-        }
-
-        public static void AutoRu(WrappedMessage wMsg)
-        {
-            if (wMsg.SenderAddress != "noreply@auto.ru" &&
-                wMsg.SenderAddress != "mag@auto.ru") return;
-
-            if (!string.IsNullOrEmpty(wMsg.Message.Subject) && wMsg.Message.Subject.Trim().StartsWith("Новые объявления: "))
-            {
-                wMsg.Move("stores // auto.ru / new ads", new List<string> { "stores", "auto.ru", "new ads" });
-            }
-            else
-            {
-                wMsg.Move("News // auto.ru", new List<string> { "News", "auto.ru" });
             }
         }
 

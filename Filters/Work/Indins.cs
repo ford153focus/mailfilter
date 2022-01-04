@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace MailFilter.Filters
+namespace MailFilter.Filters.Work
 {
-    internal class Gitlab
+    internal class Indins
     {
         public static void Filter(WrappedMessage wMsg)
         {

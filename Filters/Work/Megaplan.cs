@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MailFilter.Filters
+namespace MailFilter.Filters.Work
 {
     internal class Megaplan
     {
