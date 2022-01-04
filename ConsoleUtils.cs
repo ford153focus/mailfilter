@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Text;
 
 namespace MailFilter
 {
-    public class ConsoleUtils
+    public static class ConsoleUtils
     {
         public static void WriteError(string message)
         {

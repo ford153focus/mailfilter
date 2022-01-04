@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Json;
@@ -74,7 +74,17 @@ namespace MailFilter
             foreach (JsonValue mailbox in mailboxes)
             {
                 mailboxTasks.Add(
-                    Task.Run(() => { ProcessMailbox(mailbox); })
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            ProcessMailbox(mailbox);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                    })
                 );
             }
 
