@@ -10,7 +10,20 @@ namespace MailFilter.Filters
                 wMsg.Move("Codewars", new List<string> { "learning", "Codewars" });
 
             else if (wMsg.Host.EndsWith("coursera.org"))
-                wMsg.Move("Coursera", new List<string> { "learning", "Coursera" });
+            {
+                if (wMsg.Message.Subject == "Популярное на Coursera на этой неделе")
+                {
+                    wMsg.Move("Coursera / Popular", new List<string> { "learning", "Coursera", "Popular courses" });
+                }
+                else if (wMsg.Message.Subject == "Рекомендуемые курсы")
+                {
+                    wMsg.Move("Coursera/ Recommended", new List<string> { "learning", "Coursera", "Recommended courses" });
+                }
+                else
+                {
+                    wMsg.Move("Coursera", new List<string> { "learning", "Coursera" });
+                }
+            }
 
             else if (wMsg.Host.EndsWith("duolingo.com"))
                 wMsg.Move("Duolingo", new List<string> { "learning", "Duolingo" });
