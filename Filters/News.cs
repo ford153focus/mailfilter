@@ -27,10 +27,6 @@ namespace MailFilter.Filters
                     case "my.motogp.com":
                     wMsg.Move("News // Moto GP", new List<string> { "News", "Moto GP" });
                     return;
-                case "mozilla.org":
-                case "e.mozilla.org":
-                    wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
-                    return;
                 case "update.strava.com":
                     wMsg.Move("News // Strava", new List<string> { "News", "Strava" });
                     return;
@@ -46,6 +42,11 @@ namespace MailFilter.Filters
                 case "vc.ru":
                     wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
                     return;
+            }
+
+            if (wMsg.Host.EndsWith("mozilla.org"))
+            {
+                wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
             }
 
             Politics(wMsg);

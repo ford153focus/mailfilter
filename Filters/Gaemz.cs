@@ -126,7 +126,7 @@ namespace MailFilter.Filters
             {
                 wMsg.Move("gaemz // Warframe", new List<string> { "gaemz", "Warframe" });
             }
-            else if (wMsg.Host.EndsWith("mihoyo.com"))
+            else if (wMsg.Host.EndsWith("mihoyo.com") || wMsg.Host.EndsWith("hoyoverse.com"))
             {
                 wMsg.Move("gaemz // Genshin Impact", new List<string> { "gaemz", "Genshin Impact" });
             }

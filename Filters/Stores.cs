@@ -25,17 +25,8 @@ namespace MailFilter.Filters
                 case "newsletters.auchan.ru":
                     wMsg.Move("stores // Auchan", new List<string> { "stores", "Auchan" });
                     return;
-                case "bigtv.ru":
-                    wMsg.Move("stores // bigtv.ru", new List<string> { "stores", "bigtv.ru" });
-                    return;
                 case "boxberry.ru":
                     wMsg.Move("stores // Boxberry", new List<string> { "stores", "Boxberry" });
-                    return;
-                case "cardone.org":
-                    wMsg.Move("stores // cardone.org", new List<string> { "stores", "cardone.org" });
-                    return;
-                case "forttd.ru":
-                    wMsg.Move("store // TD Fort", new List<string> { "stores", "td_fort" });
                     return;
                 case "lite-mobile.ru":
                     wMsg.Move("store // Lite-Mobile.RU", new List<string> { "stores", "Lite-Mobile.RU" });
@@ -43,19 +34,11 @@ namespace MailFilter.Filters
                 case "fotosklad.ru":
                     wMsg.Move("store // Фотосклад", new List<string> { "stores", "Фотосклад" });
                     return;
-                case "megafon.ru":
-                case "shop.megafon.ru":
-                case "e.shop.megafon.ru":
-                    wMsg.Move("store // megafon", new List<string> { "stores", "megafon" });
+                case "lentamail.com":
+                    wMsg.Move("store // Лента", new List<string> { "stores", "Лента" });
                     return;
                 case "madrobots.ru":
                     wMsg.Move("store // madrobots", new List<string> { "stores", "madrobots" });
-                    return;
-                case "mobilewood.com":
-                    wMsg.Move("store // mobilewood", new List<string> { "stores", "mobilewood" });
-                    return;
-                case "my-shop.ru":
-                    wMsg.Move("store // my-shop.ru", new List<string> { "stores", "my-shop.ru" });
                     return;
                 case "oldi.ru":
                     wMsg.Move("store // Oldi", new List<string> { "stores", "oldi.ru" });
@@ -80,24 +63,29 @@ namespace MailFilter.Filters
                 case "telepizza-russia.ru":
                     wMsg.Move("store // TelePizza", new List<string> { "stores", "TelePizza" });
                     return;
-                case "ulmart.ru":
-                case "em.ulmart.ru":
-                    wMsg.Move("store // ulmart", new List<string> { "stores", "ulmart" });
-                    return;
                 case "xcomspb.ru":
                     wMsg.Move("store // XcomSpb", new List<string> { "stores", "XcomSpb" });
                     return;
             }
 
-            if (wMsg.Host.EndsWith("blablacar.com"))
+            if (wMsg.Host.EndsWith("auchan.ru"))
+            {
+                wMsg.Move("stores // Auchan", new List<string> { "stores", "Auchan" });
+                return;
+            }
+            else if (wMsg.Host.EndsWith("blablacar.com"))
             {
                 wMsg.Move("store // BlaBlaCar", new List<string> { "stores", "BlaBlaCar" });
                 return;
             }
-
-            if (wMsg.Host.EndsWith("ikea.ru"))
+            else if (wMsg.Host.EndsWith("ikea.ru"))
             {
                 wMsg.Move("store // IKEA", new List<string> { "stores", "IKEA" });
+                return;
+            }
+            else if (wMsg.Host.EndsWith("megafon.ru"))
+            {
+                wMsg.Move("store // megafon", new List<string> { "stores", "megafon" });
                 return;
             }
 
