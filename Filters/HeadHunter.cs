@@ -6,9 +6,7 @@ namespace MailFilter.Filters
 {
     internal class HeadHunter
     {
-        public static void Filter(WrappedMessage wMsg)
-        {
-            List<string> headHunterMailboxes = new List<string> {
+        private static List<string> headHunterMailboxes = new List<string> {
                 "auth@site.hh.ru",
                 "no_reply@hh.ru",
                 "no-reply@rabota.ru",
@@ -16,8 +14,10 @@ namespace MailFilter.Filters
                 "noreply@hh.ru",
                 "noreply@hh.ua",
                 "noreply@mailer.rabota.ru",
-            };
+        };
 
+        public static void Filter(WrappedMessage wMsg)
+        {
             if (!headHunterMailboxes.Contains(wMsg.SenderAddress)) return;
 
             if (wMsg.Message.Subject.ToLower().Equals("код подтверждения")) return;
@@ -48,14 +48,7 @@ namespace MailFilter.Filters
             if (
                 wMsg.Message.Subject.Contains("ваше резюме давно не обновлялось") ||
                 wMsg.Message.Subject.Contains("обновите резюме") ||
-                wMsg.Message.Subject.Contains("работодатели не знают о вашем резюме")
-            )
-            {
-                wMsg.Move("hh // Bump your resume", new List<string> { "hh", "bump_your_resume" });
-                return;
-            }
-
-            if (
+                wMsg.Message.Subject.Contains("работодатели не знают о вашем резюме") ||
                 wMsg.Message.Subject.Contains("ваше резюме просматривали") ||
                 (wMsg.Message.Subject.Contains("вакансия") && wMsg.Message.Subject.Contains("перенесена в архив"))
             )
@@ -70,15 +63,7 @@ namespace MailFilter.Filters
                 return;
             }
 
-
-            if (Regex.Match(wMsg.Message.Subject, @"Новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
-                Regex.Match(wMsg.Message.Subject, @".+, новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
-                wMsg.Message.Subject.Contains("подходящие вакансии") ||
-                wMsg.Message.Subject.Contains("свежие вакансии для вас"))
-            {
-                wMsg.Move("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" });
-                return;
-            }
+            if(NewVacancies(wMsg)) return;
 
             if (
                 wMsg.Message.Subject.Contains("Приглашение на собеседование") ||
@@ -93,6 +78,21 @@ namespace MailFilter.Filters
                 wMsg.Move("hh // vacancy response rejected :(", new List<string> { "hh", "Потрачено" });
 
             wMsg.Move("hh // unknown", new List<string> { "hh", "Прочие письма" });
+        }
+
+        public static bool NewVacancies(WrappedMessage wMsg)
+        {
+            if (Regex.Match(wMsg.Message.Subject, @"Новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
+                Regex.Match(wMsg.Message.Subject, @".+, новые вакансии \(\d+\) по вашему запросу на сайте").Success ||
+                wMsg.Message.Subject.Contains("подходящие вакансии") ||
+                wMsg.Message.Subject.Contains("свежие вакансии") ||
+                wMsg.Message.Subject.Contains("новые вакансии"))
+            {
+                wMsg.Move("hh // Новые вакансии", new List<string> { "hh", "Новые вакансии" });
+                return true;
+            }
+
+            return false;
         }
     }
 }
