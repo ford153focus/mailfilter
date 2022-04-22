@@ -39,9 +39,16 @@ namespace MailFilter
 
         public void Delete()
         {
-            Inbox.AddFlags(Index, MessageFlags.Deleted, true);
-            Inbox.Expunge();
-            ConsoleUtils.WriteError("deleted");
+            try
+            {
+                Inbox.AddFlags(Index, MessageFlags.Deleted, true);
+                Inbox.Expunge();
+                ConsoleUtils.WriteError("deleted");
+            }
+            catch (Exception e)
+            {
+                ConsoleUtils.WriteError(e.ToString());
+            }
         }
 
         public void Move(string outputMessage, List<string> targetFolder)
