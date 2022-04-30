@@ -80,9 +80,8 @@ namespace MailFilter.Filters
                 case "market.yandex.ru":
                     wMsg.Move("Yandex // Market", new List<string> { "Yandex", "Market" });
                     break;
-                case "money.yandex.ru":
-                case "yamoney.ru":
-                    wMsg.Move("Yandex // Money", new List<string> { "Yandex", "Money" });
+                case "metrika.yandex.ru":
+                    wMsg.Move("Yandex // Metrika", new List<string> { "Yandex", "Metrika" });
                     break;
                 case "realty.yandex.ru":
                     wMsg.Move("Yandex // Realty", new List<string> { "Yandex", "Realty" });
