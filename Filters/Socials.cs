@@ -4,6 +4,43 @@ namespace MailFilter.Filters
 {
     internal class Socials
     {
+        public static void LinkedIn(WrappedMessage wMsg)
+        {
+            if (wMsg.Message.Subject == "Я приглашаю вас установить контакт")
+            {
+                wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
+            }
+            else if (wMsg.Message.Subject.StartsWith("Приглашение участника") && wMsg.Message.Subject.EndsWith("ожидает Вашего ответа"))
+            {
+                wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
+            }
+            else if (wMsg.Message.Subject.Contains("добавьте участника") && wMsg.Message.Subject.EndsWith("в свою сеть контактов"))
+            {
+                wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
+            }
+            else if (wMsg.Message.Subject.EndsWith("только что отправил(а) Вам сообщение"))
+            {
+                wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
+            }
+            else if (wMsg.Message.Subject.StartsWith("Ваш профиль появлялся в результатах поиска"))
+            {
+                wMsg.Move("social // LinkedIn // profile appeared in search", new List<string> { "social", "LinkedIn", "profile appeared in search" });
+            }
+            else if (wMsg.Message.Subject.Contains("ищет нового сотрудника"))
+            {
+                wMsg.Move("social // LinkedIn // company X searching new employee", new List<string> { "social", "LinkedIn", "company X searching new employee" });
+            }
+            else if (wMsg.Message.Subject.Contains("начните общение со своим новым контактом"))
+            {
+                wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact added" });
+            }
+            else
+            {
+                wMsg.Move("social // LinkedIn", new List<string> { "social", "LinkedIn" });
+            }
+
+        }
+
         public static void Filter(WrappedMessage wMsg)
         {
             switch (wMsg.Host)
@@ -16,7 +53,7 @@ namespace MailFilter.Filters
                     wMsg.Move("social // instagram", new List<string> { "social", "instagram" });
                     return;
                 case "linkedin.com":
-                    wMsg.Move("social // LinkedIn", new List<string> { "social", "LinkedIn" });
+                    LinkedIn(wMsg);
                     return;
                 case "pixiv.net":
                     wMsg.Move("social // pixiv", new List<string> { "social", "pixiv" });
