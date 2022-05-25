@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace MailFilter.Filters
 {
@@ -18,7 +19,7 @@ namespace MailFilter.Filters
             {
                 wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
             }
-            else if (wMsg.Message.Subject.EndsWith("только что отправил(а) Вам сообщение"))
+            else if (wMsg.Message.Subject.EndsWith("только что отправил(а) Вам сообщение") || wMsg.Message.Subject.Contains("sent you message"))
             {
                 wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
             }
@@ -26,13 +27,21 @@ namespace MailFilter.Filters
             {
                 wMsg.Move("social // LinkedIn // profile appeared in search", new List<string> { "social", "LinkedIn", "profile appeared in search" });
             }
-            else if (wMsg.Message.Subject.Contains("ищет нового сотрудника"))
+            else if (wMsg.Message.Subject.Contains("ищет нового сотрудника") || wMsg.Message.Subject.StartsWith("Новые вакансии, похожие на вакансию"))
             {
                 wMsg.Move("social // LinkedIn // company X searching new employee", new List<string> { "social", "LinkedIn", "company X searching new employee" });
             }
             else if (wMsg.Message.Subject.Contains("начните общение со своим новым контактом"))
             {
                 wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact added" });
+            }
+            else if (wMsg.Message.Subject.EndsWith("профиль привлекает внимание") || wMsg.Message.Subject.EndsWith("посетили страницу Вашего профиля"))
+            {
+                wMsg.Move("social // LinkedIn // profile attracts attention", new List<string> { "social", "LinkedIn", "profile attracts attention" });
+            }
+            else if (Regex.Match(wMsg.Message.Subject, @"^У участника .+ \d+ новых").Success) //У участника Abc Def 4 новых...
+            {
+                wMsg.Delete();
             }
             else
             {

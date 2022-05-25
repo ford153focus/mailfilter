@@ -20,6 +20,7 @@ namespace MailFilter
         public string Host{get;}
         public string SenderAddress{get;}
         public string SenderName{get;}
+        public string Subject{get;}
 
         public WrappedMessage(ImapClient client, IMailFolder inbox, int index, List<string> filters)
         {
@@ -35,6 +36,9 @@ namespace MailFilter
 
             MailAddress senderAddressObj = new MailAddress(SenderAddress ?? string.Empty);
             Host = senderAddressObj.Host;
+
+            Subject = Message.Subject;
+            Subject = Subject.Replace(' ', ' '); // replace nbsp with space
         }
 
         public void Delete()
