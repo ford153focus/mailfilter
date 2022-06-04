@@ -145,7 +145,8 @@ namespace MailFilter.Filters
                 wMsg.Move("store // Avito // New ads // Cars", new List<string> { "stores", "Avito", "New ads", "Cars" });
             }
             else if (wMsg.Message.Subject.Contains("Не пропустите подборку интересных объявлений") ||
-                     wMsg.Subject.EndsWith("Товары с доставкой"))
+                     wMsg.Subject.EndsWith("Товары с доставкой") ||
+                     wMsg.Subject.EndsWith(" объявлений по вашим поискам"))
             {
                 wMsg.Move("store // Avito // New ads", new List<string> { "stores", "Avito", "New ads" });
             }
