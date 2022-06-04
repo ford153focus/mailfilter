@@ -10,17 +10,64 @@ namespace MailFilter
 {
     public class WrappedMessage
     {
-        public ImapClient Client{get;}
-        public IMailFolder Inbox{get;}
-        public List<string> Filters{get;}
+        public ImapClient Client { get; }
+        public IMailFolder Inbox { get; }
+        public List<string> Filters { get; }
 
-        public int Index{get;}
-        public MimeMessage Message{get;}
-
-        public string Host{get;}
-        public string SenderAddress{get;}
-        public string SenderName{get;}
-        public string Subject{get;}
+        public int Index { get; }
+        public MimeMessage Message { get; }
+        private string _host;
+        public string Host
+        {
+            get
+            {
+                if (_host is null)
+                {
+                    MailAddress senderAddressObj = new MailAddress(SenderAddress ?? string.Empty);
+                    _host = senderAddressObj.Host;
+                }
+                return _host;
+            }
+        }
+        private string _senderAddress;
+        public string SenderAddress
+        {
+            get
+            {
+                if (_senderAddress is null)
+                {
+                    _senderAddress = Message.From.Mailboxes.FirstOrDefault()?.Address;
+                }
+                return _senderAddress;
+            }
+        }
+        private string _senderName;
+        public string SenderName
+        {
+            get
+            {
+                if (_senderName is null)
+                {
+                    _senderName = Message.From.Mailboxes.FirstOrDefault()?.Name;
+                }
+                return _senderName;
+            }
+        }
+        private string _subject;
+        public string Subject
+        {
+            get
+            {
+                if (_subject is null)
+                {
+                    _subject = Message.Subject;
+                    _subject = _subject.Replace(' ', ' '); // replace nbsp with space
+                    _subject = _subject.Replace("  ", " ");
+                    _subject = _subject.Replace("  ", " ");
+                }
+                return _subject;
+            }
+        }
 
         public WrappedMessage(ImapClient client, IMailFolder inbox, int index, List<string> filters)
         {
@@ -30,15 +77,6 @@ namespace MailFilter
             this.Filters = filters;
 
             Message = inbox.GetMessage(index);
-
-            SenderAddress = Message.From.Mailboxes.FirstOrDefault()?.Address;
-            SenderName = Message.From.Mailboxes.FirstOrDefault()?.Name;
-
-            MailAddress senderAddressObj = new MailAddress(SenderAddress ?? string.Empty);
-            Host = senderAddressObj.Host;
-
-            Subject = Message.Subject;
-            Subject = Subject.Replace(' ', ' '); // replace nbsp with space
         }
 
         public void Delete()
