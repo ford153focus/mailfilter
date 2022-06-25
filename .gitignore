@@ -4,3 +4,4 @@
 /obj
 mailboxes.json
 mailboxes.dead.json
+oauth_credentials.json

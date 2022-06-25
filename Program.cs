@@ -1,28 +1,69 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Json;
 using System.Linq;
-using System.Reflection;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Util;
+using Google.Apis.Util.Store;
 using MailKit;
 using MailKit.Net.Imap;
+using MailKit.Security;
 
 namespace MailFilter
 {
     internal class Program
     {
-        private static void ProcessMailbox(dynamic mailbox)
+        private static async Task<ImapClient> GetGmailClient(Settings.Mailbox.Model.Mailbox mailbox)
         {
-            ConsoleUtils.WriteWarning(mailbox["login"]);
+            var clientSecrets = new ClientSecrets
+            {
+                ClientId = Settings.OAuth.ClientId,
+                ClientSecret = Settings.OAuth.ClientSecret
+            };
 
-            // For demo-purposes, accept all SSL certificates
-            var client = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
+            var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+            {
+                DataStore = new FileDataStore("CredentialCacheFolder", false),
+                Scopes = new[] { "https://mail.google.com/" },
+                ClientSecrets = clientSecrets
+            });
 
-            client.Connect(mailbox["host"], mailbox["port"], true);
+            // var codeReceiver = new LocalServerCodeReceiver();
+            var codeReceiver = new PromptCodeReceiver();
+            var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
+            var credential = await authCode.AuthorizeAsync(mailbox.login, CancellationToken.None);
 
-            client.Authenticate(mailbox["login"], mailbox["password"]);
+            if (credential.Token.IsExpired(SystemClock.Default))
+                await credential.RefreshTokenAsync(CancellationToken.None);
+
+            var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
+
+            var client = new ImapClient();
+            await client.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
+            await client.AuthenticateAsync(oauth2);
+
+            return client;
+        }
+
+        private static async Task ProcessMailboxAsync(Settings.Mailbox.Model.Mailbox mailbox)
+        {
+            ConsoleUtils.WriteWarning(mailbox.login);
+
+            ImapClient client;
+
+            if (mailbox.login.EndsWith("@gmail.com"))
+            {
+                client = await GetGmailClient(mailbox);
+            }
+            else
+            {
+                // For demo-purposes, accept all SSL certificates
+                client = new ImapClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
+                await client.ConnectAsync(mailbox.host, mailbox.port, true);
+                await client.AuthenticateAsync(mailbox.login, mailbox.password);
+            }
 
             // The Inbox folder is always available on all IMAP servers...
             IMailFolder inbox = client.Inbox;
@@ -30,7 +71,8 @@ namespace MailFilter
 
             // convert filters: from JsonArray to List of strings
             var filters = new List<string>();
-            foreach (dynamic filter in mailbox["applicable_filters"]) {
+            foreach (string filter in mailbox.applicable_filters)
+            {
                 filters.Add(filter.ToString().Trim('"'));
             }
 
@@ -40,7 +82,7 @@ namespace MailFilter
                 ProcessMessage(wrappedMessage);
             }
 
-            client.Disconnect(true);
+            await client.DisconnectAsync(true);
         }
 
         private static void ProcessMessage(WrappedMessage wMsg)
@@ -55,7 +97,7 @@ namespace MailFilter
             foreach (var filter in wMsg.Filters)
             {
                 object[] parametersArray = { wMsg };
-                Type.GetType("MailFilter.Filters."+filter)
+                Type.GetType("MailFilter.Filters." + filter)
                     .GetMethod("Filter")
                     .Invoke(null, parametersArray);
             }
@@ -63,28 +105,22 @@ namespace MailFilter
 
         private static async Task Main()
         {
-            var mailboxesCfgPath = Path.Combine(Environment.CurrentDirectory, "mailboxes.json");
-            var mailboxesCfgStr = await File.ReadAllTextAsync(mailboxesCfgPath, Encoding.UTF8);
-
-            JsonValue mailboxesCfg = JsonValue.Parse(mailboxesCfgStr);
-            JsonArray mailboxes = (JsonArray)mailboxesCfg["mailboxes"];
-
             var mailboxTasks = new List<Task>();
 
-            foreach (JsonValue mailbox in mailboxes)
+            foreach (var mailbox in Settings.Mailbox.GetAll())
             {
                 mailboxTasks.Add(
-                    Task.Run(() =>
+                Task.Run(async () =>
+                {
+                    try
                     {
-                        try
-                        {
-                            ProcessMailbox(mailbox);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    })
+                        await ProcessMailboxAsync(mailbox);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                })
                 );
             }
 
