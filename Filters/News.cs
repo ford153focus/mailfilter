@@ -24,7 +24,7 @@ namespace MailFilter.Filters
                 case "email.microsoft.com":
                     wMsg.Move("News // Microsoft", new List<string> { "News", "Microsoft" });
                     return;
-                    case "my.motogp.com":
+                case "my.motogp.com":
                     wMsg.Move("News // Moto GP", new List<string> { "News", "Moto GP" });
                     return;
                 case "update.strava.com":
@@ -39,14 +39,15 @@ namespace MailFilter.Filters
                 case "qt.io":
                     wMsg.Move("News // Qt", new List<string> { "News", "Qt" });
                     return;
-                case "vc.ru":
-                    wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
-                    return;
             }
 
             if (wMsg.Host.EndsWith("mozilla.org"))
             {
                 wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
+            }
+            else if (wMsg.Host.EndsWith("vc.ru"))
+            {
+                wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
             }
 
             Politics(wMsg);
