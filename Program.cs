@@ -15,7 +15,7 @@ namespace MailFilter
 {
     internal class Program
     {
-        private static async Task<ImapClient> GetGmailClient(Settings.Mailbox.Model.Mailbox mailbox)
+        private static async Task<ImapClient> GetGmailClient(Settings.Models.Mailbox mailbox)
         {
             var clientSecrets = new ClientSecrets
             {
@@ -47,7 +47,7 @@ namespace MailFilter
             return client;
         }
 
-        private static async Task ProcessMailboxAsync(Settings.Mailbox.Model.Mailbox mailbox)
+        private static async Task ProcessMailboxAsync(Settings.Models.Mailbox mailbox)
         {
             ConsoleUtils.WriteWarning(mailbox.login);
 
