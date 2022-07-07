@@ -11,7 +11,7 @@ internal class Program
     {
         ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
-        await Utils.Auth();
+        Utils.Auth();
         var mails = await Utils.GetInboxMails();
 
         foreach (var email in mails)

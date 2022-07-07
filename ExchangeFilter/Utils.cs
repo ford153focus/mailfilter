@@ -7,7 +7,7 @@ public class Utils
 {
     private static ExchangeService _service = null!;
 
-    public static async Task Auth()
+    public static void Auth()
     {
         ExchangeVersion exchangeVersion;
         bool isValidEnum = Enum.TryParse(Config.ExchangeVersion, out exchangeVersion);
