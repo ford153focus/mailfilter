@@ -2,6 +2,5 @@
 .vscode
 /bin
 /obj
-mailboxes.json
-mailboxes.dead.json
+mailboxes*.json
 oauth_credentials.json
