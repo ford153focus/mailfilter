@@ -6,24 +6,17 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
-            Beeline(wMsg);
             Cian(wMsg);
             RussianPost(wMsg);
 
-            if (wMsg.Host == "beget.com" ||
-                wMsg.Host == "beget.ltd" ||
-                wMsg.Host == "beget.ru")
-            {
-                wMsg.Move("BeGet", new List<string> { "beget" });
-            }
-        }
-
-        public static void Beeline(WrappedMessage wMsg)
-        {
-            if (wMsg.SenderAddress == "bee4you@beeline.ru")
+            if (wMsg.Host == "beeline.ru")
             {
                 wMsg.Move("Beeline", new List<string> { "beeline" });
                 return;
+            }
+
+            if (wMsg.Host.StartsWith("beget.")) {
+                wMsg.Move("BeGet", new List<string> { "beget" });
             }
         }
 

@@ -6,84 +6,58 @@ namespace MailFilter.Filters
     {
         public static void Filter(WrappedMessage wMsg)
         {
+            var storeDomains = new List<string>() {
+                "05.ru",
+                "2bit.ru",
+                "5ka.ru",
+                "auchan.ru",
+                "blablacar.com",
+                "boxberry.ru",
+                "fotosklad.ru",
+                "ikea.ru",
+                "lite-mobile.ru",
+                "madrobots.ru",
+                "oldi.ru",
+                "onlinetrade.ru",
+                "ozon.ru",
+                "pizzaroni.ru",
+                "samokat.ru",
+                "sushiwok.ru",
+                "xcomspb.ru"
+            };
+
+            foreach (var domain in storeDomains)
+            {
+                if (wMsg.Host.EndsWith(domain))
+                {
+                    wMsg.Move($"store // {domain}", new List<string> { "stores", domain });
+                    return;
+                }
+            }
+
             switch (wMsg.Host)
             {
-                case "05.ru":
-                    wMsg.Move("store // 05.ru", new List<string> { "stores", "05.ru" });
-                    return;
-                case "2bit.ru":
-                    wMsg.Move("store // 2bit.ru", new List<string> { "stores", "2bit.ru" });
-                    return;
-                case "5ka.ru":
-                case "mail.5ka.ru":
-                    wMsg.Move("store // 5", new List<string> { "stores", "5ka.ru" });
-                    return;
                 case "9814555.ru":
                     wMsg.Move("store // Мопедофф", new List<string> { "stores", "Мопедофф" });
                     return;
-                case "auchan.ru":
-                case "newsletters.auchan.ru":
-                    wMsg.Move("stores // Auchan", new List<string> { "stores", "Auchan" });
-                    return;
-                case "boxberry.ru":
-                    wMsg.Move("stores // Boxberry", new List<string> { "stores", "Boxberry" });
-                    return;
-                case "lite-mobile.ru":
-                    wMsg.Move("store // Lite-Mobile.RU", new List<string> { "stores", "Lite-Mobile.RU" });
-                    return;
-                case "fotosklad.ru":
-                    wMsg.Move("store // Фотосклад", new List<string> { "stores", "Фотосклад" });
-                    return;
                 case "lentamail.com":
                     wMsg.Move("store // Лента", new List<string> { "stores", "Лента" });
-                    return;
-                case "madrobots.ru":
-                    wMsg.Move("store // madrobots", new List<string> { "stores", "madrobots" });
-                    return;
-                case "oldi.ru":
-                    wMsg.Move("store // Oldi", new List<string> { "stores", "oldi.ru" });
-                    return;
-                case "onlinetrade.ru":
-                    wMsg.Move("store // ОНЛАЙН ТРЕЙД", new List<string> { "stores", "ОНЛАЙН ТРЕЙД" });
-                    return;
-                case "ozon.ru":
-                case "news.ozon.ru":
-                    wMsg.Move("store // Ozon", new List<string> { "stores", "Ozon" });
-                    return;
-                case "pizzaroni.ru":
-                    wMsg.Move("store // Pizzaroni", new List<string> { "stores", "Pizzaroni" });
                     return;
                 case "pobeda.aero":
                 case "info.pobeda.aero":
                     wMsg.Move("store // Авиакомпания Победа", new List<string> { "stores", "Авиакомпания Победа" });
                     return;
-                case "samokat.ru":
-                    wMsg.Move("store // Самокат", new List<string> { "stores", "Самокат" });
-                    return;
                 case "telepizza-russia.ru":
                     wMsg.Move("store // TelePizza", new List<string> { "stores", "TelePizza" });
                     return;
-                case "xcomspb.ru":
-                    wMsg.Move("store // XcomSpb", new List<string> { "stores", "XcomSpb" });
+                case "taxcom.ru":
+                case "1-ofd.ru":
+                case "chek.pofd.ru":
+                    wMsg.Move("store // Check", new List<string> { "stores", "checks" });
                     return;
             }
 
-            if (wMsg.Host.EndsWith("auchan.ru"))
-            {
-                wMsg.Move("stores // Auchan", new List<string> { "stores", "Auchan" });
-                return;
-            }
-            else if (wMsg.Host.EndsWith("blablacar.com"))
-            {
-                wMsg.Move("store // BlaBlaCar", new List<string> { "stores", "BlaBlaCar" });
-                return;
-            }
-            else if (wMsg.Host.EndsWith("ikea.ru"))
-            {
-                wMsg.Move("store // IKEA", new List<string> { "stores", "IKEA" });
-                return;
-            }
-            else if (wMsg.Host.EndsWith("megafon.ru"))
+            if (wMsg.Host.EndsWith("megafon.ru"))
             {
                 wMsg.Move("store // megafon", new List<string> { "stores", "megafon" });
                 return;

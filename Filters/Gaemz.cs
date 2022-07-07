@@ -147,6 +147,15 @@ namespace MailFilter.Filters
                 return;
             }
 
+            // Game purchase
+            if (wMsg.Message.Subject == "Thank you for your Steam purchase!" ||
+                wMsg.Message.Subject == "Спасибо за покупку в Steam!" ||
+                wMsg.Message.Subject == "Thank you for your gift purchase!")
+            {
+                wMsg.Move("gaemz // Steam // Purchase", new List<string> { "gaemz", "Steam", "purchase" });
+                return;
+            }
+
             // Gift received
             if (wMsg.Message.Subject.Contains("You've received a gift copy of the game ") ||
                 wMsg.Message.Subject.Contains("Вы получили в подарок копию игры "))
