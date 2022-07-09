@@ -16,10 +16,17 @@ internal class Program
 
         foreach (var email in mails)
         {
-            await Pskb.Maintenance(email);
-            await Pskb.Other(email);
-            await Pskb.RedMine(email);
-            await Pskb.ServiceDesk(email);
+            try
+            {
+                await Pskb.Maintenance(email);
+                await Pskb.Other(email);
+                await Pskb.RedMine(email);
+                await Pskb.ServiceDesk(email);
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         Console.WriteLine("Hello World!");
