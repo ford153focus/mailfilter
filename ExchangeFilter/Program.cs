@@ -16,6 +16,7 @@ internal class Program
 
         foreach (var email in mails)
         {
+            Console.WriteLine(email.Subject);
             try
             {
                 await Pskb.Maintenance(email);

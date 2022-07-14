@@ -5,11 +5,11 @@ namespace ExchangeFilter;
 
 public class ConfigModel
 {
-    public string exchangeVersion { get; set; }
-    public string uri { get; set; }
-    public string username { get; set; }
-    public string password { get; set; }
-    public string domain { get; set; }
+    public string? exchangeVersion { get; set; }
+    public string? uri { get; set; }
+    public string? username { get; set; }
+    public string? password { get; set; }
+    public string? domain { get; set; }
 }
 
 public class Config
