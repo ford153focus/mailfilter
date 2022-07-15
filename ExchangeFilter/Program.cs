@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using ExchangeFilter.Filters;
 using Microsoft.Exchange.WebServices.Data;
 using Task = System.Threading.Tasks.Task;
