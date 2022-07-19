@@ -79,7 +79,11 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.Host.EndsWith("github.com"))
+            if (wMsg.Host.EndsWith("107klub.com"))
+            {
+                wMsg.Move("social // 107klub.com", new List<string> { "social", "107klub" });
+            }
+            else if (wMsg.Host.EndsWith("github.com"))
             {
                 wMsg.Move("social // GitHub", new List<string> { "social", "GitHub" });
             }
