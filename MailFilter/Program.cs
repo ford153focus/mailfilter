@@ -30,7 +30,6 @@ namespace MailFilter
                 ClientSecrets = clientSecrets
             });
 
-            // var codeReceiver = new LocalServerCodeReceiver();
             var codeReceiver = new PromptCodeReceiver();
             var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
             var credential = await authCode.AuthorizeAsync(mailbox.login, CancellationToken.None);
@@ -103,8 +102,25 @@ namespace MailFilter
             }
         }
 
-        private static async Task Main()
+        private static async Task Main(string[] args)
         {
+            if (args.Count() > 0 && args[0] == "--debug") 
+            {
+                foreach (var mailbox in Settings.Mailbox.GetAll())
+                {
+                     try
+                    {
+                        await ProcessMailboxAsync(mailbox);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+
+                return;
+            }
+
             var mailboxTasks = new List<Task>();
 
             foreach (var mailbox in Settings.Mailbox.GetAll())
