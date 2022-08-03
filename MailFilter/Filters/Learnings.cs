@@ -23,6 +23,9 @@ namespace MailFilter.Filters
             else if (wMsg.Host.EndsWith("leadersofdigital.ru"))
                 wMsg.Move("Цифровой Прорыв", new List<string> { "learning", "Цифровой Прорыв" });
 
+            else if (wMsg.Host.EndsWith("hacks-ai.ru"))
+                wMsg.Move("Цифровой Прорыв", new List<string> { "learning", "Цифровой Прорыв" });
+
             else if (wMsg.Host.EndsWith("nginx.com") || wMsg.Host.EndsWith("f5.com"))
                 wMsg.Move("Learn // Nginx", new List<string> { "learning", "nginx" });
 
