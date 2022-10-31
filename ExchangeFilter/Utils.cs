@@ -12,9 +12,9 @@ public class Utils
         ExchangeVersion exchangeVersion;
         bool isValidEnum = Enum.TryParse(Config.ExchangeVersion, out exchangeVersion);
         _service = new ExchangeService(exchangeVersion);
-        // service.TraceEnabled = true;
-        // service.TraceFlags = TraceFlags.All;
-        // await service.AutodiscoverUrl(Config.Username, RedirectionUrlValidationCallback);
+        // _service.TraceEnabled = true;
+        // _service.TraceFlags = TraceFlags.All;
+        // await _service.AutodiscoverUrl(Config.Username, ValidationCallBack.RedirectionUrlValidationCallback);
         _service.Url = new Uri(Config.Uri);
         _service.Credentials = new WebCredentials(Config.Username, Config.Password, Config.Domain);
     }
@@ -56,9 +56,9 @@ public class Utils
     public static async Task<List<EmailMessage>> GetInboxMails()
     {
         var offset = 0;
-        var pageSize = 50;
+        var pageSize = 10;
         var more = true;
-        var view = new ItemView(50, offset, OffsetBasePoint.Beginning);
+        var view = new ItemView(pageSize, offset, OffsetBasePoint.Beginning);
         view.PropertySet = PropertySet.IdOnly;
         var emails = new List<EmailMessage>();
         while (more)
@@ -68,6 +68,7 @@ public class Utils
 
             more = findResults.MoreAvailable;
             if (more) view.Offset += pageSize;
+            Thread.Sleep(1530);
         }
 
         PropertySet
