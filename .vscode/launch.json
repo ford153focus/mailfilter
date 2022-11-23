@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build_ExchangeFilter",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/ExchangeFilter/bin/Debug/net6.0/ExchangeFilter.dll",
+            "program": "${workspaceFolder}/ExchangeFilter/bin/Debug/net7.0/ExchangeFilter.dll",
             "args": [],
             "cwd": "${workspaceFolder}/ExchangeFilter",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
@@ -26,8 +26,10 @@
             "request": "launch",
             "preLaunchTask": "build_MailFilter",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/MailFilter/bin/Debug/net6.0/MailFilter.dll",
-            "args": [],
+            "program": "${workspaceFolder}/MailFilter/bin/Debug/net7.0/MailFilter.dll",
+            "args": [
+                "--debug"
+            ],
             "cwd": "${workspaceFolder}/MailFilter",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
