@@ -19,12 +19,14 @@ internal class Program
             Console.WriteLine(email.Subject);
             try
             {
-                await Pskb.Interposer(email);
-                await Pskb.Maintenance(email);
-                await Pskb.Other(email);
-                await Pskb.RedMine(email);
-                await Pskb.ServiceDesk(email);
-                await Pskb.Skype(email);
+                var mail = new WrappedMessage(email);
+                
+                await Pskb.Interposer(mail);
+                await Pskb.Maintenance(mail);
+                await Pskb.Other(mail);
+                await Pskb.RedMine(mail);
+                await Pskb.ServiceDesk(mail);
+                await Pskb.Skype(mail);
             }
             catch (System.Exception e)
             {
