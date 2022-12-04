@@ -61,6 +61,8 @@ namespace MailFilter
                 if (_subject is null)
                 {
                     _subject = Message.Subject;
+                    _subject = _subject.Trim();
+                    _subject = _subject.ToLower();
                     _subject = _subject.Replace(' ', ' '); // replace nbsp with space
                     _subject = _subject.Replace("  ", " ");
                     _subject = _subject.Replace("  ", " ");

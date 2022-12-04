@@ -10,6 +10,11 @@ namespace MailFilter.Filters.Work
             {
                 wMsg.Move("wrk :: pskb :: interposer", new List<string> {"wrk", "pskb", "interposer"});
             }
+
+            if (wMsg.Host.EndsWith("pskb.com"))
+            {
+                wMsg.Move("wrk :: pskb", new List<string> {"wrk", "pskb"});
+            }
         }
     }
 }

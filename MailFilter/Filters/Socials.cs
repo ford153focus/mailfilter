@@ -7,47 +7,36 @@ namespace MailFilter.Filters
     {
         public static void LinkedIn(WrappedMessage wMsg)
         {
-            if (wMsg.Message.Subject == "Я приглашаю вас установить контакт")
+            switch (true)
             {
-                wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
+                case true when wMsg.Message.Subject.EndsWith("I’d like to connect"):
+                case true when Regex.Match(wMsg.Message.Subject, @"^.+, add .+ to your network$").Success:
+                    wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
+                    break;
+                case true when Regex.Match(wMsg.Message.Subject, @"^.+ is hiring: .+\.$").Success:
+                    wMsg.Move("social // LinkedIn // company X searching new employee", new List<string> { "social", "LinkedIn", "company is hiring" });
+                    break;
+                case true when wMsg.Message.Subject.Contains("отправьте сообщение своему новому контакту"):
+                    wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact added" });
+                    break;
+                case true when wMsg.Message.Subject.Contains("sent you message"):
+                case true when wMsg.Message.Subject.EndsWith("just messaged you"):
+                case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new message(s?)$").Success:
+                    wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
+                    break;
+                case true when Regex.Match(wMsg.Message.Subject, @"^You appeared in \d+ searche(s?) this week$").Success:
+                    wMsg.Move("social // LinkedIn // profile appeared in search", new List<string> { "social", "LinkedIn", "profile appeared in search" });
+                    break;
+                case true when Regex.Match(wMsg.Message.Subject, @"^\d+ people noticed you$").Success:
+                    wMsg.Move("social // LinkedIn // profile attracts attention", new List<string> { "social", "LinkedIn", "profile attracts attention" });
+                    break;
+                case true when Regex.Match(wMsg.Message.Subject, @"^У участника .+ \d+ новых").Success: //У участника Abc Def 4 новых...
+                    wMsg.Delete();
+                    break;
+                default:
+                    // wMsg.Move("social // LinkedIn", new List<string> { "social", "LinkedIn" });
+                    break;
             }
-            else if (wMsg.Message.Subject.StartsWith("Приглашение участника") && wMsg.Message.Subject.EndsWith("ожидает Вашего ответа"))
-            {
-                wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
-            }
-            else if (wMsg.Message.Subject.Contains("добавьте участника") && wMsg.Message.Subject.EndsWith("в свою сеть контактов"))
-            {
-                wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
-            }
-            else if (wMsg.Message.Subject.EndsWith("только что отправил(а) Вам сообщение") || wMsg.Message.Subject.Contains("sent you message"))
-            {
-                wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
-            }
-            else if (wMsg.Message.Subject.StartsWith("Ваш профиль появлялся в результатах поиска"))
-            {
-                wMsg.Move("social // LinkedIn // profile appeared in search", new List<string> { "social", "LinkedIn", "profile appeared in search" });
-            }
-            else if (wMsg.Message.Subject.Contains("ищет нового сотрудника") || wMsg.Message.Subject.StartsWith("Новые вакансии, похожие на вакансию"))
-            {
-                wMsg.Move("social // LinkedIn // company X searching new employee", new List<string> { "social", "LinkedIn", "company X searching new employee" });
-            }
-            else if (wMsg.Message.Subject.Contains("начните общение со своим новым контактом"))
-            {
-                wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact added" });
-            }
-            else if (wMsg.Message.Subject.EndsWith("профиль привлекает внимание") || wMsg.Message.Subject.EndsWith("посетили страницу Вашего профиля"))
-            {
-                wMsg.Move("social // LinkedIn // profile attracts attention", new List<string> { "social", "LinkedIn", "profile attracts attention" });
-            }
-            else if (Regex.Match(wMsg.Message.Subject, @"^У участника .+ \d+ новых").Success) //У участника Abc Def 4 новых...
-            {
-                wMsg.Delete();
-            }
-            else
-            {
-                wMsg.Move("social // LinkedIn", new List<string> { "social", "LinkedIn" });
-            }
-
         }
 
         public static void Filter(WrappedMessage wMsg)
@@ -66,6 +55,9 @@ namespace MailFilter.Filters
                     return;
                 case "pixiv.net":
                     wMsg.Move("social // pixiv", new List<string> { "social", "pixiv" });
+                    return;
+                case "odnoklassniki.ru":
+                    wMsg.Move("social // odnoklassniki", new List<string> { "social", "odnoklassniki" });
                     return;
                 case "twitter.com":
                     wMsg.Move("social // twitter", new List<string> { "social", "twitter" });

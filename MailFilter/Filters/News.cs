@@ -50,6 +50,16 @@ namespace MailFilter.Filters
                 wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
             }
 
+            if (wMsg.SenderAddress == "subscribe@aviasales.ru")
+            {
+                wMsg.Move("promo // aviasales.ru", new List<string> { "promo", "aviasales.ru" });
+            }
+
+            if (wMsg.SenderAddress == "noreply@medium.com")
+            {
+                wMsg.Move("News :: medium", new List<string> { "News", "medium" });
+            }
+
             Politics(wMsg);
         }
 

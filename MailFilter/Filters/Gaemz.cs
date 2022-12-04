@@ -70,6 +70,9 @@ namespace MailFilter.Filters
                 case "stopgame.ru":
                     wMsg.Move("gaemz // StopGame.ru", new List<string> { "gaemz", "StopGame.ru" });
                     return;
+                case "toweroffantasy-global.com":
+                    wMsg.Move("gaemz // ToF", new List<string> { "gaemz", "ToF" });
+                    return;
                 case "unity3d.com":
                     wMsg.Move("gaemz // Unity 3D Engine", new List<string> { "gaemz", "Unity 3D Engine" });
                     return;
