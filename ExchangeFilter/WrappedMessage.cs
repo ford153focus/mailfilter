@@ -27,6 +27,13 @@ public class WrappedMessage
         }
     }
 
+    public string Recipient {
+        get {
+            var recipients = origin.ToRecipients;
+            return recipients.Count == 0 ? "" : recipients.First().Address;
+        }
+    }
+
     public string Subject {
         get {
             if (origin.Subject is null) return "";
