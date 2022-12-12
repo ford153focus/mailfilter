@@ -10,6 +10,7 @@ namespace MailFilter.Filters
             switch (true)
             {
                 case true when wMsg.Message.Subject.EndsWith("I’d like to connect"):
+                case true when wMsg.Message.Subject.EndsWith("invitation is waiting for your response"):
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+, add .+ to your network$").Success:
                     wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
                     break;
@@ -19,8 +20,9 @@ namespace MailFilter.Filters
                 case true when wMsg.Message.Subject.Contains("отправьте сообщение своему новому контакту"):
                     wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact added" });
                     break;
-                case true when wMsg.Message.Subject.Contains("sent you message"):
                 case true when wMsg.Message.Subject.EndsWith("just messaged you"):
+                case true when wMsg.Message.Subject.EndsWith("sent you message"):
+                case true when wMsg.Message.Subject.EndsWith("shared a new post"):
                 case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new message(s?)$").Success:
                     wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
                     break;
