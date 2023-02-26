@@ -9,9 +9,12 @@ namespace MailFilter.Filters
         {
             switch (true)
             {
+                case true when wMsg.Message.Subject.EndsWith("I still want to connect"):
                 case true when wMsg.Message.Subject.EndsWith("I’d like to connect"):
                 case true when wMsg.Message.Subject.EndsWith("invitation is waiting for your response"):
+                case true when wMsg.Message.Subject.Contains(", add "):
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+, add .+ to your network$").Success:
+                case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new invitation(s?)$").Success:
                     wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
                     break;
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+ is hiring: .+\.$").Success:
@@ -22,17 +25,22 @@ namespace MailFilter.Filters
                     break;
                 case true when wMsg.Message.Subject.EndsWith("just messaged you"):
                 case true when wMsg.Message.Subject.EndsWith("sent you message"):
+                case true when wMsg.Message.Subject.Contains("shared a post"):
                 case true when wMsg.Message.Subject.EndsWith("shared a new post"):
                 case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new message(s?)$").Success:
                     wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
                     break;
-                case true when Regex.Match(wMsg.Message.Subject, @"^You appeared in \d+ searche(s?) this week$").Success:
+                case true when Regex.Match(wMsg.Message.Subject, @"^You appeared in \d+ search(es)? this week$").Success:
                     wMsg.Move("social // LinkedIn // profile appeared in search", new List<string> { "social", "LinkedIn", "profile appeared in search" });
                     break;
                 case true when Regex.Match(wMsg.Message.Subject, @"^\d+ people noticed you$").Success:
+                case true when wMsg.Message.Subject == "People are noticing you":
                     wMsg.Move("social // LinkedIn // profile attracts attention", new List<string> { "social", "LinkedIn", "profile attracts attention" });
                     break;
-                case true when Regex.Match(wMsg.Message.Subject, @"^У участника .+ \d+ новых").Success: //У участника Abc Def 4 новых...
+                case true when wMsg.Message.Subject.EndsWith("follow these creators based on your recent activity"):
+                case true when wMsg.Message.Subject.EndsWith("here are top recommendations for your feed"):
+                case true when Regex.Match(wMsg.Message.Subject, @"^.+ has \d+ new connection(s?). View all .+’s connections.$").Success:
+                case true when Regex.Match(wMsg.Message.Subject, @"^Congratulate .+ for .+ at .+").Success:
                     wMsg.Delete();
                     break;
                 default:
