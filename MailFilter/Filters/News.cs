@@ -55,7 +55,7 @@ namespace MailFilter.Filters
                 wMsg.Move("promo // aviasales.ru", new List<string> { "promo", "aviasales.ru" });
             }
 
-            if (wMsg.SenderAddress == "noreply@medium.com")
+            if (wMsg.Host == "medium.com")
             {
                 wMsg.Move("News :: medium", new List<string> { "News", "medium" });
             }
@@ -63,7 +63,7 @@ namespace MailFilter.Filters
             Politics(wMsg);
         }
 
-        public static void Politics(WrappedMessage wMsg)
+        private static void Politics(WrappedMessage wMsg)
         {
             if (wMsg.Host.EndsWith("change.org"))
             {

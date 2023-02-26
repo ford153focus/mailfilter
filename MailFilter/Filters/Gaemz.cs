@@ -27,6 +27,7 @@ namespace MailFilter.Filters
                     return;
                 case "blizzard.com":
                 case "em.blizzard.com":
+                case "battle.net":
                     wMsg.Move("gaemz // Blizzard", new List<string> { "gaemz", "Blizzard" });
                     return;
                 case "capcom.com":

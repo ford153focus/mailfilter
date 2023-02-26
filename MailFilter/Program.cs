@@ -31,6 +31,7 @@ namespace MailFilter
             });
 
             var codeReceiver = new PromptCodeReceiver();
+            //Google.Apis.Auth.OAuth2.LocalServerCodeReceiver
             var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
             var credential = await authCode.AuthorizeAsync(mailbox.login, CancellationToken.None);
 
@@ -102,45 +103,55 @@ namespace MailFilter
             }
         }
 
-        private static async Task Main(string[] args)
+        private static async Task Debug()
         {
-            if (args.Count() > 0 && args[0] == "--debug") 
+            foreach (var mailbox in Settings.Mailbox.GetAll())
             {
-                foreach (var mailbox in Settings.Mailbox.GetAll())
-                {
-                     try
-                    {
-                        await ProcessMailboxAsync(mailbox);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-
-                return;
+                await ProcessMailboxAsync(mailbox);
             }
+        }
 
+        private static async Task Release()
+        {
             var mailboxTasks = new List<Task>();
 
             foreach (var mailbox in Settings.Mailbox.GetAll())
             {
                 mailboxTasks.Add(
-                Task.Run(async () =>
-                {
-                    try
+                    Task.Run(async () =>
                     {
-                        await ProcessMailboxAsync(mailbox);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                })
+                        try
+                        {
+                            await ProcessMailboxAsync(mailbox);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                    })
                 );
             }
 
             await Task.WhenAll(mailboxTasks);
+        }
+
+        private static async Task Main(string[] args)
+        {
+            bool isDebug = false;
+
+            if (args.Any())
+                if (args[0] == "--debug")
+                    isDebug = true;
+
+            if (isDebug)
+            {
+                await Debug();
+            }
+            else
+            {
+                await Release();
+            }
+
             ConsoleUtils.WriteSuccess("All mailboxes filtered");
         }
     }
