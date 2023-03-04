@@ -17,6 +17,8 @@ namespace MailFilter.Filters
                 case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new invitation(s?)$").Success:
                     wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
                     break;
+                case true when wMsg.Message.Subject.StartsWith("Hiring now:"):
+                case true when wMsg.Message.Subject.EndsWith("jobs just posted"):
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+ is hiring: .+\.$").Success:
                     wMsg.Move("social // LinkedIn // company X searching new employee", new List<string> { "social", "LinkedIn", "company is hiring" });
                     break;
