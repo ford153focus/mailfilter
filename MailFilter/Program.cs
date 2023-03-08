@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -113,7 +114,7 @@ namespace MailFilter
 
         private static async Task Release()
         {
-            var mailboxTasks = new List<Task>();
+            ConcurrentBag<Task> mailboxTasks = new();
 
             foreach (var mailbox in Settings.Mailbox.GetAll())
             {
@@ -132,7 +133,13 @@ namespace MailFilter
                 );
             }
 
-            await Task.WhenAll(mailboxTasks);
+            bool continueLoop = true;
+
+            while (continueLoop)
+            {
+                await Task.WhenAll(mailboxTasks);
+                continueLoop = mailboxTasks.Any(t => t.Status != TaskStatus.RanToCompletion);
+            }
         }
 
         private static async Task Main(string[] args)
