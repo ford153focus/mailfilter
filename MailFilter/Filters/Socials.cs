@@ -15,34 +15,35 @@ namespace MailFilter.Filters
                 case true when wMsg.Message.Subject.Contains(", add "):
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+, add .+ to your network$").Success:
                 case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new invitation(s?)$").Success:
-                    wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add me" });
+                    wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add_me" });
                     break;
                 case true when wMsg.Message.Subject.StartsWith("Hiring now:"):
+                case true when wMsg.Message.Subject.StartsWith("New jobs similar to "):
                 case true when wMsg.Message.Subject.EndsWith("jobs just posted"):
+                case true when wMsg.Message.Subject.Contains(" new job for "):
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+ is hiring: .+\.$").Success:
-                    wMsg.Move("social // LinkedIn // company X searching new employee", new List<string> { "social", "LinkedIn", "company is hiring" });
+                    wMsg.Move("social // LinkedIn // new vacancies", new List<string> { "social", "LinkedIn", "new_vacancies" });
                     break;
                 case true when wMsg.Message.Subject.Contains("отправьте сообщение своему новому контакту"):
-                    wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact added" });
+                    wMsg.Move("social // LinkedIn // contact added", new List<string> { "social", "LinkedIn", "contact_added" });
                     break;
                 case true when wMsg.Message.Subject.EndsWith("just messaged you"):
                 case true when wMsg.Message.Subject.EndsWith("sent you message"):
+                case true when wMsg.Message.Subject.Contains("sent you a message"):
+                case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new message(s?)$").Success:
+                    wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new_message" });
+                    break;
                 case true when wMsg.Message.Subject.Contains("shared a post"):
                 case true when wMsg.Message.Subject.EndsWith("shared a new post"):
-                case true when Regex.Match(wMsg.Message.Subject, @"^You have \d+ new message(s?)$").Success:
-                    wMsg.Move("social // LinkedIn // new message", new List<string> { "social", "LinkedIn", "new message" });
+                    wMsg.Move("social // LinkedIn // new psto", new List<string> { "social", "LinkedIn", "new_psto" });
                     break;
-                case true when Regex.Match(wMsg.Message.Subject, @"^You appeared in \d+ search(es)? this week$").Success:
-                    wMsg.Move("social // LinkedIn // profile appeared in search", new List<string> { "social", "LinkedIn", "profile appeared in search" });
-                    break;
-                case true when Regex.Match(wMsg.Message.Subject, @"^\d+ people noticed you$").Success:
                 case true when wMsg.Message.Subject == "People are noticing you":
-                    wMsg.Move("social // LinkedIn // profile attracts attention", new List<string> { "social", "LinkedIn", "profile attracts attention" });
-                    break;
                 case true when wMsg.Message.Subject.EndsWith("follow these creators based on your recent activity"):
                 case true when wMsg.Message.Subject.EndsWith("here are top recommendations for your feed"):
+                case true when Regex.Match(wMsg.Message.Subject, @"^\d+ people noticed you$").Success:
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+ has \d+ new connection(s?). View all .+’s connections.$").Success:
                 case true when Regex.Match(wMsg.Message.Subject, @"^Congratulate .+ for .+ at .+").Success:
+                case true when Regex.Match(wMsg.Message.Subject, @"^You appeared in \d+ search(es)? this week$").Success:
                     wMsg.Delete();
                     break;
                 default:
