@@ -22,6 +22,7 @@ namespace MailFilter.Filters
                 "ozon.ru",
                 "pizzaroni.ru",
                 "samokat.ru",
+                "sportmaster.ru",
                 "sushiwok.ru",
                 "xcomspb.ru"
             };
@@ -50,9 +51,10 @@ namespace MailFilter.Filters
                 case "telepizza-russia.ru":
                     wMsg.Move("store // TelePizza", new List<string> { "stores", "TelePizza" });
                     return;
-                case "taxcom.ru":
                 case "1-ofd.ru":
                 case "chek.pofd.ru":
+                case "paysec.by":
+                case "taxcom.ru":
                     wMsg.Move("store // Check", new List<string> { "stores", "checks" });
                     return;
             }
@@ -114,17 +116,20 @@ namespace MailFilter.Filters
                     return;
             }
 
-            if (wMsg.Message.Subject.Contains("Персональная подборка автомобилей"))
+            switch (true)
             {
-                wMsg.Move("store // Avito // New ads // Cars", new List<string> { "stores", "Avito", "New ads", "Cars" });
+                case true when wMsg.Message.Subject.Contains("Персональная подборка автомобилей"):
+                    wMsg.Move("store // Avito // New ads // Cars", new List<string> { "stores", "Avito", "New ads", "Cars" });
+                    return;
+                case true when wMsg.Message.Subject.Contains("Не пропустите подборку интересных объявлений"):
+                case true when wMsg.Subject.EndsWith("Рекомендации для вас"):
+                case true when wMsg.Subject.EndsWith("Товары с доставкой"):
+                case true when wMsg.Subject.EndsWith(" объявлений по вашим поискам"):
+                    wMsg.Move("store // Avito // New ads", new List<string> { "stores", "Avito", "New ads" });
+                    return;
             }
-            else if (wMsg.Message.Subject.Contains("Не пропустите подборку интересных объявлений") ||
-                     wMsg.Subject.EndsWith("Рекомендации для вас") ||
-                     wMsg.Subject.EndsWith("Товары с доставкой") ||
-                     wMsg.Subject.EndsWith(" объявлений по вашим поискам"))
-            {
-                wMsg.Move("store // Avito // New ads", new List<string> { "stores", "Avito", "New ads" });
-            }
+
+            wMsg.Move("store // Avito // other", new List<string> { "stores", "Avito" });
         }
     }
 }

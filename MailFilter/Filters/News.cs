@@ -19,6 +19,9 @@ namespace MailFilter.Filters
                 case "f1fanvoice.com":
                     wMsg.Move("News // Formula1", new List<string> { "News", "Formula1" });
                     return;
+                case "medium.com":
+                    wMsg.Move("News :: medium", new List<string> { "News", "medium" });
+                    return;
                 case "microsoft.com":
                 case "e-mail.microsoft.com":
                 case "email.microsoft.com":
@@ -26,6 +29,9 @@ namespace MailFilter.Filters
                     return;
                 case "my.motogp.com":
                     wMsg.Move("News // Moto GP", new List<string> { "News", "Moto GP" });
+                    return;
+                case "news.ostrovok.ru":
+                    wMsg.Move("promo // ostrovok", new List<string> { "promo", "ostrovok" });
                     return;
                 case "update.strava.com":
                     wMsg.Move("News // Strava", new List<string> { "News", "Strava" });
@@ -39,40 +45,6 @@ namespace MailFilter.Filters
                 case "qt.io":
                     wMsg.Move("News // Qt", new List<string> { "News", "Qt" });
                     return;
-            }
-
-            if (wMsg.Host.EndsWith("mozilla.org"))
-            {
-                wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
-            }
-            else if (wMsg.Host.EndsWith("vc.ru"))
-            {
-                wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
-            }
-
-            if (wMsg.SenderAddress == "subscribe@aviasales.ru")
-            {
-                wMsg.Move("promo // aviasales.ru", new List<string> { "promo", "aviasales.ru" });
-            }
-
-            if (wMsg.Host == "medium.com")
-            {
-                wMsg.Move("News :: medium", new List<string> { "News", "medium" });
-            }
-
-            Politics(wMsg);
-        }
-
-        private static void Politics(WrappedMessage wMsg)
-        {
-            if (wMsg.Host.EndsWith("change.org"))
-            {
-                wMsg.Move("News // pol // Change.org", new List<string> { "News", "pol", "Change.org" });
-                return;
-            }
-
-            switch (wMsg.Host)
-            {
                 case "gorod.io":
                     wMsg.Move("News // pol // Горожанин", new List<string> { "News", "pol", "Горожанин" });
                     return;
@@ -80,6 +52,22 @@ namespace MailFilter.Filters
                 case "navalny.com":
                 case "rus.vote":
                     wMsg.Move("20!8", new List<string> { "News", "pol", "n2018" });
+                    return;
+            }
+
+            switch (true)
+            {
+                case true when wMsg.SenderAddress.Equals("subscribe@aviasales.ru"):
+                    wMsg.Move("promo // aviasales.ru", new List<string> { "promo", "aviasales.ru" });
+                    return;
+                case true when wMsg.Host.EndsWith("change.org"):
+                    wMsg.Move("News // pol // Change.org", new List<string> { "News", "pol", "Change.org" });
+                    return;
+                case true when wMsg.Host.EndsWith("mozilla.org"):
+                    wMsg.Move("News // Mozilla", new List<string> { "News", "Mozilla" });
+                    return;
+                case true when wMsg.Host.EndsWith("vc.ru"):
+                    wMsg.Move("News // vc.ru", new List<string> { "News", "vc.ru" });
                     return;
             }
         }

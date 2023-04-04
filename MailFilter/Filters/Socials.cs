@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace MailFilter.Filters
 {
@@ -18,6 +19,8 @@ namespace MailFilter.Filters
                     wMsg.Move("social // LinkedIn // add me", new List<string> { "social", "LinkedIn", "add_me" });
                     break;
                 case true when wMsg.Message.Subject.StartsWith("Hiring now:"):
+                //LinkedIn Job Alerts
+                case true when wMsg.Message.From.First().Name.Equals("LinkedIn Job Alerts"):
                 case true when wMsg.Message.Subject.StartsWith("New jobs similar to "):
                 case true when wMsg.Message.Subject.EndsWith("jobs just posted"):
                 case true when wMsg.Message.Subject.Contains(" new job for "):
@@ -40,6 +43,7 @@ namespace MailFilter.Filters
                 case true when wMsg.Message.Subject == "People are noticing you":
                 case true when wMsg.Message.Subject.EndsWith("follow these creators based on your recent activity"):
                 case true when wMsg.Message.Subject.EndsWith("here are top recommendations for your feed"):
+                case true when wMsg.Message.Subject.EndsWith("you’re getting noticed"):
                 case true when Regex.Match(wMsg.Message.Subject, @"^\d+ people noticed you$").Success:
                 case true when Regex.Match(wMsg.Message.Subject, @"^.+ has \d+ new connection(s?). View all .+’s connections.$").Success:
                 case true when Regex.Match(wMsg.Message.Subject, @"^Congratulate .+ for .+ at .+").Success:

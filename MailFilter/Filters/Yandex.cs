@@ -55,6 +55,9 @@ namespace MailFilter.Filters
                 case "Яндекс.Коннект":
                     wMsg.Move("Yandex // Connect", new List<string> { "Yandex", "Connect" });
                     break;
+                case "Яндекс.Карты":
+                    wMsg.Move("Yandex // Maps", new List<string> { "Yandex", "Maps" });
+                    break;
                 case "Яндекс.Трекер":
                     wMsg.Move("Yandex // Tracker", new List<string> { "Yandex", "Tracker" });
                     break;
@@ -62,6 +65,9 @@ namespace MailFilter.Filters
 
             switch (wMsg.Host)
             {
+                case "360.yandex.ru":
+                    wMsg.Move("Yandex // 360", new List<string> { "Yandex", "360" });
+                    break;
                 case "chef.yandex.ru":
                     wMsg.Move("Yandex // Chef", new List<string> { "Yandex", "Chef" });
                     break;
