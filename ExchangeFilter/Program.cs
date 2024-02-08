@@ -28,7 +28,7 @@ internal class Program
                 await Pskb.ServiceDesk(mail);
                 await Pskb.Skype(mail);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }

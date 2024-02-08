@@ -6,124 +6,103 @@ using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
 
-namespace MailFilter
+namespace MailFilter;
+
+public class WrappedMessage
 {
-    public class WrappedMessage
+    public ImapClient Client { get; }
+    public IMailFolder Inbox { get; }
+    public List<string> Filters { get; }
+
+    public int Index { get; }
+    public MimeMessage Message { get; }
+    private string _host;
+    public string Host
     {
-        public ImapClient Client { get; }
-        public IMailFolder Inbox { get; }
-        public List<string> Filters { get; }
-
-        public int Index { get; }
-        public MimeMessage Message { get; }
-        private string _host;
-        public string Host
+        get
         {
-            get
+            if (_host is null)
             {
-                if (_host is null)
+                MailAddress senderAddressObj = new MailAddress(SenderAddress ?? string.Empty);
+                _host = senderAddressObj.Host;
+            }
+            return _host;
+        }
+    }
+    private string _senderAddress;
+    public string SenderAddress => _senderAddress ??= Message.From.Mailboxes.FirstOrDefault()?.Address;
+    private string _senderName;
+    public string SenderName => _senderName ??= Message.From.Mailboxes.FirstOrDefault()?.Name;
+    private string _subject;
+    public string Subject
+    {
+        get
+        {
+            if (_subject is null)
+            {
+                _subject = Message.Subject;
+                _subject = _subject.Trim();
+                _subject = _subject.ToLower();
+                _subject = _subject.Replace(' ', ' '); // replace nbsp with space
+                _subject = _subject.Replace("  ", " ");
+                _subject = _subject.Replace("  ", " ");
+            }
+            return _subject;
+        }
+    }
+
+    public WrappedMessage(ImapClient client, IMailFolder inbox, int index, List<string> filters)
+    {
+        this.Client = client;
+        this.Inbox = inbox;
+        this.Index = index;
+        this.Filters = filters;
+
+        Message = inbox.GetMessage(index);
+    }
+
+    public void Delete()
+    {
+        try
+        {
+            Inbox.AddFlags(Index, MessageFlags.Deleted, true);
+            Inbox.Expunge();
+            ConsoleUtils.WriteError("deleted");
+        }
+        catch (Exception e)
+        {
+            ConsoleUtils.WriteError(e.ToString());
+        }
+    }
+
+    public void Move(string outputMessage, List<string> targetFolder)
+    {
+        try
+        {
+            // Get subfolder
+            // Try to create subfolder on error
+            IMailFolder currentFolder = Client.GetFolder(Client.PersonalNamespaces[0]);
+            foreach (var folder in targetFolder)
+            {
+                try
                 {
-                    MailAddress senderAddressObj = new MailAddress(SenderAddress ?? string.Empty);
-                    _host = senderAddressObj.Host;
+                    currentFolder = currentFolder.GetSubfolder(folder);
                 }
-                return _host;
-            }
-        }
-        private string _senderAddress;
-        public string SenderAddress
-        {
-            get
-            {
-                if (_senderAddress is null)
+                catch (Exception)
                 {
-                    _senderAddress = Message.From.Mailboxes.FirstOrDefault()?.Address;
+                    currentFolder = currentFolder.Create(folder, true);
                 }
-                return _senderAddress;
             }
+
+            // Move
+            Inbox.MoveTo(Index, currentFolder);
+            Inbox.Expunge();
+
+            ConsoleUtils.WriteSuccess(outputMessage);
         }
-        private string _senderName;
-        public string SenderName
+        catch (Exception e)
         {
-            get
-            {
-                if (_senderName is null)
-                {
-                    _senderName = Message.From.Mailboxes.FirstOrDefault()?.Name;
-                }
-                return _senderName;
-            }
-        }
-        private string _subject;
-        public string Subject
-        {
-            get
-            {
-                if (_subject is null)
-                {
-                    _subject = Message.Subject;
-                    _subject = _subject.Trim();
-                    _subject = _subject.ToLower();
-                    _subject = _subject.Replace(' ', ' '); // replace nbsp with space
-                    _subject = _subject.Replace("  ", " ");
-                    _subject = _subject.Replace("  ", " ");
-                }
-                return _subject;
-            }
-        }
-
-        public WrappedMessage(ImapClient client, IMailFolder inbox, int index, List<string> filters)
-        {
-            this.Client = client;
-            this.Inbox = inbox;
-            this.Index = index;
-            this.Filters = filters;
-
-            Message = inbox.GetMessage(index);
-        }
-
-        public void Delete()
-        {
-            try
-            {
-                Inbox.AddFlags(Index, MessageFlags.Deleted, true);
-                Inbox.Expunge();
-                ConsoleUtils.WriteError("deleted");
-            }
-            catch (Exception e)
-            {
-                ConsoleUtils.WriteError(e.ToString());
-            }
-        }
-
-        public void Move(string outputMessage, List<string> targetFolder)
-        {
-            try
-            {
-                // Get subfolder
-                // Try to create subfolder on error
-                IMailFolder currentFolder = Client.GetFolder(Client.PersonalNamespaces[0]);
-                foreach (var folder in targetFolder)
-                {
-                    try
-                    {
-                        currentFolder = currentFolder.GetSubfolder(folder);
-                    }
-                    catch (Exception)
-                    {
-                        currentFolder = currentFolder.Create(folder, true);
-                    }
-                }
-
-                // Move
-                Inbox.MoveTo(Index, currentFolder);
-                Inbox.Expunge();
-
-                ConsoleUtils.WriteSuccess(outputMessage);
-            }
-            catch (Exception e)
-            {
-                ConsoleUtils.WriteError(e.ToString());
-            }
+            ConsoleUtils.WriteError(e.ToString());
         }
     }
 }

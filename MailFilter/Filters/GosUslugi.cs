@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 
-namespace MailFilter.Filters
+namespace MailFilter.Filters;
+
+internal class GosUslugi
 {
-    internal class GosUslugi
+    public static void Filter(WrappedMessage wMsg)
     {
-        public static void Filter(WrappedMessage wMsg)
+        if (wMsg.SenderAddress.EndsWith("gosuslugi.ru") ||
+            wMsg.SenderAddress.EndsWith("service-nalog.ru"))
         {
-            if (wMsg.SenderAddress.EndsWith("gosuslugi.ru") ||
-                wMsg.SenderAddress.EndsWith("service-nalog.ru"))
-            {
-                wMsg.Move("GosUslugi", new List<string> { "ГосУслуги" });
-            }
+            wMsg.Move("GosUslugi", new List<string> { "ГосУслуги" });
         }
     }
 }

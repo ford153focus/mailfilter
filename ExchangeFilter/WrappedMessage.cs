@@ -4,22 +4,18 @@ namespace ExchangeFilter;
 
 public class WrappedMessage
 {
-    public EmailMessage origin;
+    public readonly EmailMessage Origin;
 
     public WrappedMessage(EmailMessage email)
     {
-        origin = email;
+        Origin = email;
     }
 
-    public string From {
-        get {
-            return origin.From.Address;
-        }
-    }
+    public string From => Origin.From.Address;
 
     public string Body {
         get {
-            string text = origin.Body.Text;
+            string text = Origin.Body.Text;
             text = text.Replace("\r", " ").Replace("\n", " "); // remove new line symbols
             text = text.Replace("  ", " ").Replace("  ", " "); // remove extra spaces
             text = text.ToLower().Trim();
@@ -29,15 +25,15 @@ public class WrappedMessage
 
     public string Recipient {
         get {
-            var recipients = origin.ToRecipients;
+            var recipients = Origin.ToRecipients;
             return recipients.Count == 0 ? "" : recipients.First().Address;
         }
     }
 
     public string Subject {
         get {
-            if (origin.Subject is null) return "";
-            return origin.Subject.ToLower().Trim();
+            if (Origin.Subject is null) return "";
+            return Origin.Subject.ToLower().Trim();
         }
     }
 }

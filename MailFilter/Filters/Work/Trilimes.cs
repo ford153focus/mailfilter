@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 
-namespace MailFilter.Filters.Work
+namespace MailFilter.Filters.Work;
+
+internal class Trilimes
 {
-    internal class Trilimes
+    public static void Filter(WrappedMessage wMsg)
     {
-        public static void Filter(WrappedMessage wMsg)
-        {
-            if (wMsg.SenderAddress != "jira@trilimes.atlassian.net") return;
+        if (wMsg.SenderAddress != "jira@trilimes.atlassian.net") return;
 
-            wMsg.Move("Work // Trilimes", new List<string> { "Work", "Trilimes" });
+        wMsg.Move("Work // Trilimes", new List<string> { "Work", "Trilimes" });
 
-        }
     }
 }

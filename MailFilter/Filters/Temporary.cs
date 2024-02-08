@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 
-namespace MailFilter.Filters
+namespace MailFilter.Filters;
+
+internal class Temporary
 {
-    internal class Temporary
+    public static void Filter(WrappedMessage wMsg)
     {
-        public static void Filter(WrappedMessage wMsg)
+        switch (wMsg.SenderAddress)
         {
-            switch (wMsg.SenderAddress)
-            {
-                case "portal@azbukavkusa.ru":
-                    wMsg.Move("Tmp", new List<string> { "tmp" });
-                    break;
-            }
+            case "portal@azbukavkusa.ru":
+                wMsg.Move("Tmp", new List<string> { "tmp" });
+                break;
         }
     }
 }
