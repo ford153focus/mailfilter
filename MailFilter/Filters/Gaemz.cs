@@ -137,6 +137,10 @@ internal class Gaemz
         {
             wMsg.Move("gaemz // Genshin Impact", new List<string> { "gaemz", "Genshin Impact" });
         }
+        else if (wMsg.Host.EndsWith("nebulajoy.info"))
+        {
+            wMsg.Move("gaemz // Nebulajoy", new List<string> { "gaemz", "nebulajoy" });
+        }
         else
         {
             Steam(wMsg);
