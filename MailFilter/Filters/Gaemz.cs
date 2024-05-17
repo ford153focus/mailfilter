@@ -47,6 +47,9 @@ internal class Gaemz
             case "eslgaming.com":
                 wMsg.Move("gaemz // ESL", new List<string> { "gaemz", "ESL" });
                 return;
+            case "fate-go.us":
+                wMsg.Move("gaemz // Fate/Grand Order", new List<string> { "gaemz", "fate-go" });
+                return;
             case "goodgame.ru":
                 wMsg.Move("gaemz // GoodGame", new List<string> { "gaemz", "GoodGame" });
                 return;
@@ -72,6 +75,7 @@ internal class Gaemz
                 wMsg.Move("gaemz // StopGame.ru", new List<string> { "gaemz", "StopGame.ru" });
                 return;
             case "toweroffantasy-global.com":
+            case "mail.toweroffantasy-global.com":
                 wMsg.Move("gaemz // ToF", new List<string> { "gaemz", "ToF" });
                 return;
             case "unity3d.com":
@@ -137,7 +141,7 @@ internal class Gaemz
         {
             wMsg.Move("gaemz // Genshin Impact", new List<string> { "gaemz", "Genshin Impact" });
         }
-        else if (wMsg.Host.EndsWith("nebulajoy.info"))
+        else if (wMsg.Host.EndsWith("nebulajoy.cc") || wMsg.Host.EndsWith("nebulajoy.info"))
         {
             wMsg.Move("gaemz // Nebulajoy", new List<string> { "gaemz", "nebulajoy" });
         }

@@ -97,7 +97,9 @@ internal class Stores
 
     public static void Avito(WrappedMessage wMsg)
     {
-        if (wMsg.SenderAddress != "noreply@avito.ru") return;
+        if (wMsg.SenderAddress != "noreply@avito.ru")
+            if (wMsg.SenderAddress != "notifications@avito.ru")
+                return;
 
         switch (wMsg.Message.Subject.ToLower())
         {

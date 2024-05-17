@@ -24,6 +24,7 @@ internal class Socials
             case true when wMsg.Message.From.First().Name.Equals("LinkedIn Job Alerts"):
             case true when wMsg.Message.Subject.StartsWith("New jobs similar to "):
             case true when wMsg.Message.Subject.EndsWith("jobs just posted"):
+            case true when wMsg.Message.Subject.EndsWith(" are hiring"):
             case true when wMsg.Message.Subject.Contains(" new job for "):
             case true when Regex.Match(wMsg.Message.Subject, @"^.+ is hiring: .+\.$").Success:
                 wMsg.Move("social // LinkedIn // new vacancies", new List<string> { "social", "LinkedIn", "new_vacancies" });
