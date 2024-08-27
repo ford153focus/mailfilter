@@ -20,8 +20,8 @@ internal class Program
     {
         var clientSecrets = new ClientSecrets
         {
-            ClientId = Settings.OAuth.ClientId,
-            ClientSecret = Settings.OAuth.ClientSecret
+            ClientId = Settings.OAuth.GetClientId(mailbox.login),
+            ClientSecret = Settings.OAuth.GetClientSecret(mailbox.login)
         };
 
         var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
@@ -31,8 +31,7 @@ internal class Program
             ClientSecrets = clientSecrets
         });
 
-        var codeReceiver = new PromptCodeReceiver();
-        //Google.Apis.Auth.OAuth2.LocalServerCodeReceiver
+        var codeReceiver = new LocalServerCodeReceiver();
         var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
         var credential = await authCode.AuthorizeAsync(mailbox.login, CancellationToken.None);
 
@@ -54,7 +53,7 @@ internal class Program
 
         ImapClient client;
 
-        if (mailbox.login.EndsWith("@gmail.com"))
+        if (mailbox.login.EndsWith("@gmail.com") || mailbox.login.EndsWith("@banxe.com"))
         {
             client = await GetGmailClient(mailbox);
         }

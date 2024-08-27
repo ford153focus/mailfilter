@@ -12,7 +12,7 @@ class Mailbox
 
     public static void ParseJsonFile()
     {
-        string filePath = Path.Combine(Environment.CurrentDirectory, "mailboxes.json");
+        string filePath = Path.Combine(Environment.CurrentDirectory, "cfg", "mailboxes.json");
         string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
         parsed = JsonConvert.DeserializeObject<Models.Mailboxes>(fileContent);
     }

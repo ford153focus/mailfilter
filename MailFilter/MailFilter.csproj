@@ -15,14 +15,12 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
     <PackageReference Include="System.Json" Version="4.6.0-preview3.19128.7" />
-  </ItemGroup>
 
-  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-    <Copy SourceFiles="mailboxes.json" DestinationFolder="$(OutDir)" />
-    <Copy SourceFiles="oauth_credentials.json" DestinationFolder="$(OutDir)" />
-  </Target>
-  <Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
-    <Copy SourceFiles="mailboxes.json" DestinationFolder="$(PublishDir)" />
-    <Copy SourceFiles="oauth_credentials.json" DestinationFolder="$(PublishDir)" />
-  </Target>
+    <None Update="cfg\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="cfg\**\*.*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

@@ -33,4 +33,20 @@ class OAuth
             return parsed.installed.client_secret;
         }
     }
+
+    public static string GetClientId(string login)
+    {
+        string filePath = Path.Combine(Environment.CurrentDirectory, "cfg", "gmail", login, "client_secret.json");
+        string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
+        parsed = JsonConvert.DeserializeObject<Models.OAuth>(fileContent);
+        return parsed.installed.client_id;
+    }
+
+    public static string GetClientSecret(string login)
+    {
+        string filePath = Path.Combine(Environment.CurrentDirectory, "cfg", "gmail", login, "client_secret.json");
+        string fileContent = File.ReadAllText(filePath, Encoding.UTF8);
+        parsed = JsonConvert.DeserializeObject<Models.OAuth>(fileContent);
+        return parsed.installed.client_secret;
+    }
 }
