@@ -31,7 +31,7 @@ internal class Other
         }
         else
         {
-            wMsg.Move("News // cian.ru", new List<string> { "News", "cian.ru" });
+            wMsg.Move("News // cian.ru", new List<string> { "news", "cian.ru" });
         }
     }
 

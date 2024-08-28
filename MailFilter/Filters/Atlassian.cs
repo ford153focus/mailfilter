@@ -6,19 +6,19 @@ namespace MailFilter.Filters;
 internal class Atlassian
 {
     public static void Jira(WrappedMessage wMsg) {
-        if (Regex.Match(wMsg.Subject, @"^\[JIRA\] .+ assigned .+ to you").Success)
+        if (Regex.Match(wMsg.Subject, @"^\[jira\] .+ assigned .+ to you").Success)
         {
             wMsg.Move("jira :: assign", ["jira", "assigned_to_you"]);
             return;
         }
 
-        if (Regex.Match(wMsg.Subject, @"^\[JIRA\] .+ mentioned you on").Success)
+        if (Regex.Match(wMsg.Subject, @"^\[jira\] .+ mentioned you on").Success)
         {
             wMsg.Move("jira :: mention", ["jira", "mentioned_you"]);
             return;
         }
 
-        if (Regex.Match(wMsg.Subject, @"^\[JIRA\] \([A-Z]+\-\d+\)").Success)
+        if (Regex.Match(wMsg.Subject, @"^\[jira\] \([a-z]+\-\d+\)").Success)
         {
             wMsg.Move("jira :: task edit", ["jira", "task_edit"]);
             return;

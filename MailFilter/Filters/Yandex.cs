@@ -15,7 +15,7 @@ internal class Yandex
         }
         else
         {
-            wMsg.Move("News // auto.ru", new List<string> { "News", "auto.ru" });
+            wMsg.Move("News // auto.ru", new List<string> { "news", "auto.ru" });
         }
     }
 
